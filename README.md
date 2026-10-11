@@ -12,9 +12,9 @@ The paper is [paper/main.pdf](paper/main.pdf); its source is
 
 ## Introduction
 
-This paper gives a different proof of a classical bound for the error in
-the prime number theorem, using a differential equation derived from
-Selberg's formula.
+This paper gives a different proof of the mean-square form of a classical
+bound for the error in the prime number theorem, using a differential
+equation derived from Selberg's formula.
 
 Write $\psi(x)=\sum_{n\le x}\Lambda(n)$ for the Chebyshev function and
 
@@ -24,9 +24,11 @@ f(t)=e^{-t}\psi(e^t)-1 .
 
 The prime number theorem says $f(t)\to0$. Wirsing showed in 1962–64,
 by elementary real-variable methods built on Selberg's symmetry formula,
-that $\psi(x)=x+O(x/\log x)$, that is, $f(t)=O(1/t)$.
+that $\psi(x)=x+O(x/\log x)$, that is, $f(t)=O(1/t)$. Bombieri and Wirsing
+later reached $O(x/(\log x)^A)$ for every $A$.
 
-This paper gives a different proof of the mean-square form of that bound:
+This paper gives a different proof of the mean-square form of the first
+bound, the energy bound
 
 ```math
 \int_0^T t^2 f(t)^2\,dt = O(T).
@@ -52,8 +54,8 @@ absolutely. It uses no analytic continuation and no zero-free region.
 The argument applies to the general coupled-source setting of the paper's
 Theorem 2.1: a positive measure $\nu$ with $\nu([0,t])=t+O(1)$, coupled to a
 bounded source $f$ by a first-order equation and a Selberg-type relation
-with bounded error. Without the density hypothesis, the same method proves
-$f\in L^2(0,\infty)$. This supplies the hypotheses of Wirsing's abstract
+with bounded error. With a local density hypothesis it gives the energy
+bound; without it, the same method proves $f\in L^2(0,\infty)$. This supplies the hypotheses of Wirsing's abstract
 Tauberian theorem that the Selberg relation does not give directly. That
 theorem, which Wirsing stated without a detailed proof, then gives
 $f(t)=O(1/t)$, with a constant that may depend on the measure.
@@ -121,7 +123,8 @@ Diamond–Zhang monograph were not consulted, so priority is not settled.
 - The certificate has a floor and gives no rate better than the classical
   ones. Several finite inverse estimates that motivated the work remain
   open (Sections 14–15).
-- The proofs were checked by separate AI reviews. No human expert has
+- The proofs were checked by separate fresh-context AI reviews, all using
+  models from one AI provider. No human expert has
   reviewed them. Agreement among AI audits is evidence about a process, not
   independent validation. No numerical computation is used as evidence.
 

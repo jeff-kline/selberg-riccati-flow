@@ -11,8 +11,10 @@ url: "https://github.com/jeff-kline/selberg-riccati-flow"
 license: GPL-3.0-only
 abstract: >-
   Wirsing showed in 1962-64, by elementary methods built on Selberg's
-  symmetry formula, that psi(x) = x + O(x/log x). This paper gives a different proof of the
-  mean-square form of this bound, int_0^T t^2 f(t)^2 dt = O(T) with
+  symmetry formula, that psi(x) = x + O(x/log x); Bombieri and Wirsing
+  reached O(x/(log x)^A) for every A. This paper gives a different proof
+  of the mean-square form of the first bound, the energy bound
+  int_0^T t^2 f(t)^2 dt = O(T) with
   f(t) = e^{-t} psi(e^t) - 1. On each horizontal line, Selberg's formula
   becomes a Riccati equation for the normalized Laplace transform of the
   prime-power measure. Positivity at the doubled frequency keeps the
@@ -22,10 +24,12 @@ abstract: >-
   stays in the half-plane of absolute convergence and uses no analytic
   continuation. In the general coupled-source setting (a positive measure
   with counting function t + O(1), coupled to a bounded source by a
-  first-order equation and a Selberg-type relation), the method proves f in L^2 without a density hypothesis, which
-  supplies the input for Wirsing's abstract Tauberian theorem (stated by
-  Wirsing without a detailed proof); it then gives f(t) = O(1/t), with a
-  constant that may depend on the measure. As an
+  first-order equation and a Selberg-type relation), the method gives the
+  energy bound under a local density hypothesis, and proves f in L^2
+  without it. This supplies the hypotheses of Wirsing's abstract Tauberian
+  theorem that the Selberg relation does not give directly. That theorem,
+  which Wirsing stated without a detailed proof, then gives f(t) = O(1/t),
+  with a constant that may depend on the measure. As an
   application, the energy bound closes a sparse divisor-cofactor
   certificate for the Mertens function, giving M(N) = O(N/log N). These
   rates are classical; the contribution is the method. The proofs were

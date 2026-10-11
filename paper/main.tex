@@ -39,8 +39,9 @@ Mertens Certificate}
 \maketitle
 \begin{abstract}
 Wirsing showed in 1962--64, by elementary methods built on Selberg's
-symmetry formula, that $\psi(x)=x+O(x/\log x)$. We give a different proof of the mean-square form
-of this bound. Let $f(t)=e^{-t}\psi(e^t)-1$, and let $b(s)$ be the Laplace
+symmetry formula, that $\psi(x)=x+O(x/\log x)$; Bombieri and Wirsing
+reached $O(x/(\log x)^A)$ for every $A$. We give a different proof of the
+mean-square form of the first bound. Let $f(t)=e^{-t}\psi(e^t)-1$, and let $b(s)$ be the Laplace
 transform of the prime-power measure. On each horizontal line
 $s=\sigma+i\xi$, Selberg's formula becomes a Riccati equation for
 $\sigma b(\sigma+i\xi)$ as $\sigma$ decreases. Positivity at the doubled
@@ -48,15 +49,15 @@ frequency $2\xi$ keeps the solution away from the unstable fixed point $-1$.
 A M\"obius substitution then turns it into a linear equation whose forcing
 term depends on the solution but stays small, which gives a resolvent bound
 uniform in $\xi$. Combined with a local density bound for
-primes from a quadratic sieve, this proves
+primes from a quadratic sieve, this proves the energy bound
 $\int_0^T t^2f(t)^2\,\mathrm dt=O(T)$. The proof stays in the half-plane of
 absolute convergence and uses no analytic continuation.
 
 The argument applies to the general coupled-source setting of
 Theorem~\ref{thm:energy}: a positive measure $\nu$ with $\nu([0,t])=t+O(1)$,
 coupled to a bounded source $f$ by a first-order equation and a Selberg-type
-relation with bounded error. Without the
-density hypothesis, the same method proves $f\in L^2(0,\infty)$. This
+relation with bounded error. With a local density hypothesis it gives the
+energy bound; without it, the same method proves $f\in L^2(0,\infty)$. This
 supplies the hypotheses of Wirsing's abstract Tauberian theorem that the
 Selberg relation does not give directly. That theorem, which Wirsing stated
 without a detailed proof, then gives $f(t)=O(1/t)$, with a constant that may
@@ -68,7 +69,8 @@ method.
 
 \noindent\textbf{Status and AI assistance.}
 The proofs in this paper were written with the assistance of AI models and
-were checked by separate AI proof audits. They have not been reviewed by a
+were checked by separate fresh-context AI proof audits, all using models
+from one AI provider. They have not been reviewed by a
 human expert or formally verified. Novelty is qualified in
 Section~\ref{sec:literature}.
 
@@ -130,8 +132,9 @@ sieve (Section~\ref{sec:sieve}).
 Section~\ref{sec:wirsing-bridge} drops \eqref{eq:LD}. The same argument then
 proves $f\in L^2(0,\infty)$. For a general positive measure, this supplies
 the hypotheses of Wirsing's abstract theorem (his Satz~2) that the Selberg
-relation does not give directly, so that theorem now gives $f(t)=O(1/t)$ and \eqref{eq:main-energy}. This
-step relies on Wirsing's theorem, which he stated without a detailed proof.
+relation does not give directly. That theorem then gives $f(t)=O(1/t)$ and
+\eqref{eq:main-energy}, with constants that may depend on the pair
+$(f,\nu)$. This step relies on Wirsing's theorem, which he stated without a detailed proof.
 Nothing else in the paper depends on it.
 
 \paragraph{The application.}
@@ -1445,7 +1448,7 @@ Selberg's sieve bound for primes in short intervals. So the use of a sieve
 upper density, as in Section~\ref{sec:sieve}, has a precedent; its role
 there differs from its role here (Section~\ref{sec:lit-mechanisms}).
 
-\begin{remark}[Local density is not necessary]\label{rem:ld-not-needed}
+\begin{remark}[Local density is not needed on the Satz~2 route]\label{rem:ld-not-needed}
 Lemma~\ref{lem:weak-density} derives
 $\nu((t,t+h])\le2h+O_A(1/t)$ for bounded $h$ from the base hypotheses.
 This interval bound does not by itself bound $f*f$ in Wirsing's
@@ -1483,7 +1486,7 @@ is bounded, has total variation $O(\log(2+t))$, and has distinct
 subsequential limits $C_0$ and $C_0-2\varepsilon$. Therefore
 $\rho*d\rho=O(\log(2+t))$, whereas
 $t\rho-\rho*d\rho=O(1)$ would force $\rho(t)\to0$.
-No choice of $C_0$ gives that equation. This disproves the proposed
+No choice of $C_0$ gives that equation. This disproves the
 identification, not the pointwise conclusion for $f$ or the replacement
 bridge in Section~\ref{sec:wirsing-bridge}.
 \end{remark}
@@ -1629,7 +1632,7 @@ following components.
        logarithm. This is a standard device.
 \end{enumerate}
 
-The candidate proof contribution is the combination of (M1)--(M3) with
+The proof contribution is the combination of (M1)--(M3) with
 the tail and source estimates: a quantitative, frequency-resolved,
 continuation-free treatment of Selberg's relation in the half-plane of
 absolute convergence. The comparison distinguishes this combination

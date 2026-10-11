@@ -98,3 +98,28 @@ wording points only.
 | R3 | Comparison overcompressed: Bombieri does use a Laplace transform (Section 16) | Fixed: restricted to the proofs examined; Bombieri's real-axis use stated |
 | R4 | README opens with notation | Fixed: plain first sentence added |
 | R5 | ADMISSION.md says repository creation not started | Fixed |
+
+## 2026-10-11 — re-audits at a45a28b
+
+Pinned input: commit a45a28b. Two fresh-context read-only audits (Claude
+Sonnet), after the wording changes above reopened A1.
+
+Reproducibility and release mechanics — PASS. Two fresh `git archive`
+extractions rebuilt a byte-identical PDF; manifest (11 files) OK; LICENSE
+matches the canonical GPL-3.0 text; CITATION.cff valid, no DOI or release
+date; no private paths or placeholders; release audit 7 pass, 1 warning
+(no tag yet), 0 fail; outgoing commit uses the noreply identity.
+
+Claim and prose — PARTIAL -> resolved.
+
+| ID | Finding | Disposition |
+|---|---|---|
+| Q1 | Must-fix: CITATION.cff still said "supplies the input" (ledger F1 claimed fixed) | Fixed; earlier F1 disposition corrected by this entry |
+| Q2 | Must-fix: README first sentence omitted "mean-square form" | Fixed |
+| Q3 | "Energy bound" used without being named | Fixed (abstract, README, CFF) |
+| Q4 | O(x/log x) presented without the stronger classical results | Fixed: Bombieri and Wirsing reached every power of log (abstract, README, CFF) |
+| Q5 | Setting description omitted the density hypothesis | Fixed |
+| Q6 | Section 1 "now gives" lacked the pair-dependent constant | Fixed |
+| Q7 | Remark title "Local density is not necessary" lacked the Satz 2 condition | Fixed |
+| Q8 | Optional: "candidate proof contribution", "disproves the proposed identification", single-provider audits | Fixed; same-provider audits stated in paper status paragraph and README |
+| Q9 | Optional: "motivated the work", Section 17 closing, item counts, README glossary | Not changed |
