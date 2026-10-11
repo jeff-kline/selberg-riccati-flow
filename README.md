@@ -2,10 +2,17 @@
 
 Jeffery Kline
 
-**Version 0.1.0 — release candidate.** No DOI or stable citation exists yet.
-Admission under the project's
+[![Version DOI: 10.5281/zenodo.23301917](https://zenodo.org/badge/DOI/10.5281/zenodo.23301917.svg)](https://doi.org/10.5281/zenodo.23301917)
+
+**Version 0.1.0 — admitted, released 2026-10-11.** The immutable release is
+[`v0.1.0`](https://github.com/jeff-kline/selberg-riccati-flow/releases/tag/v0.1.0),
+archived at version DOI [`10.5281/zenodo.23301917`](https://doi.org/10.5281/zenodo.23301917). The concept DOI
+[`10.5281/zenodo.23301916`](https://doi.org/10.5281/zenodo.23301916) resolves to the latest version; cite the
+version DOI for reproducibility. Admission under the project's
 [public research standard](https://jeff-kline.github.io/posts/research-program/index.html)
-is a release decision, not peer review or a correctness certificate.
+is a release decision, not peer review or a correctness certificate. The
+tagged snapshot keeps its prepublication "release candidate" wording because
+the DOI did not exist when it was made.
 
 The paper is [paper/main.pdf](paper/main.pdf); its source is
 [paper/main.tex](paper/main.tex).

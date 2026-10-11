@@ -26,11 +26,15 @@ shasum -a 256 -c MANIFEST.sha256  # every tracked file except the manifest itsel
 
 ## Clean reproduction
 
-The commands above were run on 2026-10-11 in a fresh `git archive` extraction
-of the candidate, with the tracked PDF deleted first and no TeX auxiliary
-files. `make paper` and `make check` passed, and the rebuilt PDF was
-byte-identical to the tracked `paper/main.pdf`
-(SHA-256 `2940f92f7511a4b5b18ac7d3292c39d9746f9564e5ab93d70ee804964736a76d`).
+The commands above were run on 2026-10-11 in fresh `git archive` extractions
+of the tagged candidate `v0.1.0`, with the tracked PDF deleted first and no
+TeX auxiliary files. `make paper` and `make check` passed, and the rebuilt PDF
+was byte-identical to the tagged `paper/main.pdf`.
+
+The living repository adds the version DOI to the paper's title page, so its
+PDF differs from the tagged one. A fresh `git archive` rebuild of the living
+tree reproduces the living `paper/main.pdf` byte for byte
+(SHA-256 `6c4a05c9e910994a1e999c826317d762c48a51a90dcdca901111764c81c9eff9`).
 
 ## Exclusions
 

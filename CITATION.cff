@@ -9,6 +9,15 @@ authors:
 repository-code: "https://github.com/jeff-kline/selberg-riccati-flow"
 url: "https://github.com/jeff-kline/selberg-riccati-flow"
 license: GPL-3.0-only
+doi: 10.5281/zenodo.23301917
+date-released: 2026-10-11
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23301917
+    description: "Version DOI for release 0.1.0"
+  - type: doi
+    value: 10.5281/zenodo.23301916
+    description: "Concept DOI; resolves to the latest version"
 abstract: >-
   Wirsing showed in 1962-64, by elementary methods built on Selberg's
   symmetry formula, that psi(x) = x + O(x/log x); Bombieri and Wirsing

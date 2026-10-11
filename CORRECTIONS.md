@@ -13,7 +13,9 @@ errors are recorded here with the date, the affected version, and the fix.
 
 ## Version history
 
-- 0.1.0 (release candidate, October 2026): first version.
+- 0.1.0 (released October 11, 2026): first version. Tag `v0.1.0`, version DOI
+  10.5281/zenodo.23301917. The tagged snapshot says "release candidate" because the
+  DOI did not exist when it was made; the living repository adds the DOI.
 
 ## Recorded corrections
 
