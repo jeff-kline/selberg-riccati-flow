@@ -19,8 +19,8 @@ f(t)=e^{-t}\psi(e^t)-1 .
 ```
 
 The prime number theorem says $f(t)\to0$. Wirsing showed in 1962–64,
-by elementary real-variable methods, that Selberg's symmetry formula
-implies the rate $\psi(x)=x+O(x/\log x)$, that is, $f(t)=O(1/t)$.
+by elementary real-variable methods built on Selberg's symmetry formula,
+that $\psi(x)=x+O(x/\log x)$, that is, $f(t)=O(1/t)$.
 
 This paper gives a different proof of the mean-square form of that bound:
 
@@ -44,11 +44,13 @@ $\sum_n \Lambda(n)n^{-1}\delta_{\log n}$. The proof has four steps.
 The proof stays in the half-plane where the Laplace transform converges
 absolutely. It uses no analytic continuation and no zero-free region.
 
-The argument applies to any positive measure that satisfies a Selberg-type
-relation with bounded error. Without the density hypothesis, the same
-method proves $f\in L^2(0,\infty)$. That is the input needed to apply
-Wirsing's abstract Tauberian theorem to a general measure, and it then gives
-$f(t)=O(1/t)$.
+The argument applies to any positive measure $\nu$ with
+$\nu([0,t])=t+O(1)$ that satisfies a Selberg-type relation with bounded
+error. Without the density hypothesis, the same method proves
+$f\in L^2(0,\infty)$. This supplies the hypotheses of Wirsing's abstract
+Tauberian theorem that the Selberg relation does not give directly. That
+theorem, which Wirsing stated without a detailed proof, then gives
+$f(t)=O(1/t)$, with a constant that may depend on the measure.
 
 As an application, the energy bound closes a sparse divisor–cofactor
 certificate for the Mertens function $M(N)=\sum_{n\le N}\mu(n)$, giving
@@ -81,7 +83,15 @@ What we believe is new:
   arithmetic case. Wirsing obtained the corresponding input from arithmetic
   identities, which a general measure does not have.
 
-We did not find these in the sources compared in Section 16 of the paper:
+The certificate continues the author's earlier work on sparse matrix
+representations of the Mertens function, in particular
+[*The singular spectrum of a sparse Mertens matrix*](https://doi.org/10.5281/zenodo.23004980),
+whose Section 7.1 asks for explicit row coefficients with a uniform residual
+bound. This paper supplies such coefficients, for a different family of
+relations and an $\ell^1$ residual.
+
+We did not find the three items above in the sources compared in Section 16
+of the paper:
 Diamond's 1982 survey, and the primary papers of Kuhn, Wirsing and Bombieri
 for each remainder mechanism it describes. The comparison was bounded, not
 exhaustive. Ingham's review, Wright (1952), Amitsur (1961) and the
@@ -121,7 +131,7 @@ shasum -a 256 -c MANIFEST.sha256
 ## Repository contents
 
 - `paper/`: LaTeX source `main.tex` and reading copy `main.pdf`.
-- `audit/`: audit reports and the ledger of findings and dispositions.
+- `audit/`: the ledger of audit findings and dispositions.
 - `ADMISSION.md`, `VERIFICATION.md`, `CORRECTIONS.md`, `CITATION.cff`,
   `MANIFEST.sha256`: release records.
 

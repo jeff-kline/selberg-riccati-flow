@@ -13,7 +13,7 @@ paper:
 # Fails on TeX warnings, bad boxes, unresolved references, or a wrong page count.
 check:
 	@! grep -E 'Warning|Overfull|Underfull|undefined|Rerun to get' paper/main.log
-	@grep -q 'Output written on main.pdf (28 pages' paper/main.log
+	@grep -q 'Output written on main.pdf (30 pages' paper/main.log
 	@! pdftotext paper/main.pdf - | grep -F '??'
 	@pdfinfo paper/main.pdf | grep -E '^(Title|Author|Subject|Pages):'
 	@echo "check: PASS (document consistency only; not a proof check)"

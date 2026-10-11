@@ -38,8 +38,8 @@ Mertens Certificate}
 \begin{document}
 \maketitle
 \begin{abstract}
-Wirsing showed in 1962--64 that Selberg's symmetry formula implies
-$\psi(x)=x+O(x/\log x)$. We give a different proof of the mean-square form
+Wirsing showed in 1962--64, by elementary methods built on Selberg's
+symmetry formula, that $\psi(x)=x+O(x/\log x)$. We give a different proof of the mean-square form
 of this bound. Let $f(t)=e^{-t}\psi(e^t)-1$, and let $b(s)$ be the Laplace
 transform of the prime-power measure. On each horizontal line
 $s=\sigma+i\xi$, Selberg's formula becomes a Riccati equation for
@@ -51,11 +51,13 @@ primes from a quadratic sieve, this proves
 $\int_0^T t^2f(t)^2\,\mathrm dt=O(T)$. The proof stays in the half-plane of
 absolute convergence and uses no analytic continuation.
 
-The argument applies to any positive measure that satisfies a Selberg-type
-relation with bounded error. Without the density hypothesis, the same method
-proves $f\in L^2(0,\infty)$. That is what is needed to apply Wirsing's
-abstract Tauberian theorem in this generality, which then gives
-$f(t)=O(1/t)$. As an application, the energy bound closes a sparse
+The argument applies to any positive measure $\nu$ with $\nu([0,t])=t+O(1)$
+that satisfies a Selberg-type relation with bounded error. Without the
+density hypothesis, the same method proves $f\in L^2(0,\infty)$. This
+supplies the hypotheses of Wirsing's abstract Tauberian theorem that the
+Selberg relation does not give directly. That theorem, which Wirsing stated
+without a detailed proof, then gives $f(t)=O(1/t)$, with a constant that may
+depend on the measure. As an application, the energy bound closes a sparse
 divisor--cofactor certificate for the Mertens function and gives
 $M(N)=O(N/\log N)$. These rates are classical. The contribution is the
 method.
@@ -91,7 +93,7 @@ The main analytic result is Theorem~\ref{thm:energy}. In the arithmetic
 case it applies to
 \begin{equation}\label{eq:arith-source}
  f(t)=e^{-t}\psi(e^t)-1,\qquad
- \nu=\sum_{n\ge2}\frac{\Lambda(n)}n\delta_{\log n},\qquad t\ge0.
+ \nu=\sum_{n\ge2}\frac{\Lambda(n)}n\delta_{\log n},\qquad t\ge0,
 \end{equation}
 and gives
 \begin{equation}\label{eq:main-energy}
@@ -122,9 +124,9 @@ sieve (Section~\ref{sec:sieve}).
 
 \paragraph{Without the density hypothesis.}
 Section~\ref{sec:wirsing-bridge} drops \eqref{eq:LD}. The same argument then
-proves $f\in L^2(0,\infty)$. For a general positive measure, this is
-exactly the missing hypothesis in Wirsing's abstract theorem (his Satz~2),
-so that theorem now gives $f(t)=O(1/t)$ and \eqref{eq:main-energy}. This
+proves $f\in L^2(0,\infty)$. For a general positive measure, this supplies
+the hypotheses of Wirsing's abstract theorem (his Satz~2) that the Selberg
+relation does not give directly, so that theorem now gives $f(t)=O(1/t)$ and \eqref{eq:main-energy}. This
 step relies on Wirsing's theorem, which he stated without a detailed proof.
 Nothing else in the paper depends on it.
 
@@ -180,8 +182,9 @@ The resolvent bound holds for a source built from the same measure as its
 convolution multiplier. It is not a bound for arbitrary vectors.
 Sections~\ref{sec:finite} and~\ref{sec:recursion} record the finite
 eigenstructure, singular-vector formulation, and recursions that motivated
-the work, and state which assertions remain open. An earlier estimate on
-the circle is in Appendix~\ref{app:circle}.
+the work, and state which assertions remain open. A related estimate on
+the circle, which does not by itself close the argument, is in
+Appendix~\ref{app:circle}.
 
 \section{The abstract weighted energy theorem}\label{sec:abstract}
 
@@ -240,7 +243,7 @@ where
 \[
  A(s)=1+\frac1{s(s+1)},\qquad D(s)=\frac{s+1}{s^2}.
 \]
-Fix $\xi\ne0$, write $\sigma=a e^{-v}$, and put
+Fix $\xi\ne0$ and $a>0$, write $\sigma=a e^{-v}$, and put
 $\beta(\sigma,\xi)=\sigma b(\sigma+i\xi)$. Equation~\eqref{eq:riccati-b}
 becomes
 \begin{equation}\label{eq:riccati-beta}
@@ -556,7 +559,8 @@ to the energy conclusion; the proof in Sections~\ref{sec:scale}--\ref{sec:closur
 continues to give that conclusion without invoking Wirsing.
 
 \begin{lemma}[An interval bound from positivity]\label{lem:weak-density}
-Under the base hypotheses \eqref{eq:B}--\eqref{eq:R}, for every fixed
+Under the hypotheses of Theorem~\ref{thm:energy} other than \eqref{eq:LD},
+for every fixed
 $A>0$,
 \begin{equation}\label{eq:weak-density}
  \nu((t,t+h])\le 2h+\frac{C_A}{t}
@@ -687,6 +691,8 @@ For each fixed $A$ the exact increment identity and
  \le(1+\delta)h+C_A/t\qquad(0<h\le A).
 \]
 Taking $A=\max(1,2\norm f_\infty)$ handles all larger $h$ by boundedness.
+This holds for $t\ge t_\delta$, where $t_\delta\ge2$ depends on the pair.
+For $t<t_\delta$, $|g(t+h)-g(t)|\le2\norm f_\infty\le2\norm f_\infty t_\delta/t$.
 Consequently
 \begin{equation}\label{eq:bridge-fluctuation}
  |g(t+h)-g(t)|\le\gamma h+O(t^{-1}),\qquad h>0.
@@ -699,7 +705,8 @@ Finally, expanding $f*\nu$ using the source equation gives the exact identity
 because $|f*f|\le\norm f_2^2$ and both $F$ and $R$ are bounded.
 Thus $g$ has the total-variation bound, fluctuation bound with
 $\gamma<\sqrt2$, and self-convolution equation required by Satz~2,
-with $\beta=1$.
+with Wirsing's exponent $\beta=1$ (unrelated to the variable $\beta$ of
+Section~\ref{sec:scale}).
 
 Wirsing uses a zero extension at $0-$ and allows the countably many
 points where a Stieltjes convolution is undefined. Adding the initial
@@ -816,6 +823,11 @@ The bounded initial interval is harmless.
 
 \section{The local-density hypothesis from a quadratic sieve}\label{sec:sieve}
 
+The sieve below is Selberg's quadratic sieve \cite{selberg-sieve}, in a
+coarse form. Sharp constants in the resulting Brun--Titchmarsh inequality
+are due to Montgomery and Vaughan \cite{mv}; we need only the order of
+magnitude.
+
 \begin{lemma}[A coarse uniform interval sieve]\label{lem:sieve}
 For $X\ge1$ and $Y\ge2$,
 \begin{equation}\label{eq:interval-sieve}
@@ -840,7 +852,7 @@ $x_\ell=\mu(\ell)/(\varphi(\ell)G_z)$. Inverting these minimizing values,
  \lambda_d=\frac{\mu(d)d}{\varphi(d)G_z}
     \sum_{\substack{k\le z/d\\(k,d)=1}}\frac{\mu(k)^2}{\varphi(k)}.
 \]
-Thus $|\lambda_d|\le d/\varphi(d)\le d$ and
+Since the inner sum is at most $G_z$, $|\lambda_d|\le d/\varphi(d)\le d$ and
 $\sum_{d\le z}|\lambda_d|\le z^2$.
 
 For each prime $n>z$, $\sum_{d\mid n}\lambda_d=1$.
@@ -1123,6 +1135,7 @@ $0\le h\le h_0:=A/(4C_0)$. Hence, for $t\ge1$,
 \]
 The energy bound gives $A\ll t^{-1/3}$. If $A<4q(t)$, the same conclusion
 follows from the exponential majorant of $q$.
+The range $\log2\le t<1$ follows from boundedness of $f$.
 Putting $t=\log x$ proves the corollary, including jump locations under
 the right-continuous convention.
 \end{proof}
@@ -1266,7 +1279,7 @@ needed. A uniform construction of these multipliers has not been supplied.
 
 \subsection{Restriction to divisibility rays}
 For an integer $d\ge2$, put $X=N/d$ and $r^{(d)}_k=r_{dk}$ for
-$k\le\lfloor X/2\rfloor$. From \eqref{eq:finite-S},
+$k\le\lfloor X/2\rfloor$ (the identity below is trivial when $X<4$). From \eqref{eq:finite-S},
 \begin{equation}\label{eq:ray}
  (S_Xr^{(d)})_k=(S_Nr)_{dk}.
 \end{equation}
@@ -1309,7 +1322,8 @@ $pr$ gives
  2\sum_{\substack{p\nmid r\\g(r)g(pr)>0}}
                    \min(|g(r)|,|g(pr)|).\label{eq:fold-gain}
 \end{align}
-The sums also retain the previously excluded primes.
+The function $T_pg$ remains supported on integers coprime to the excluded
+primes and to $p$.
 Equation~\eqref{eq:fold-gain} proves nonexpansion in $\ell^1$.
 Strict contraction requires a lower bound on the displayed same-sign
 overlap. It does not follow from the singular values of a two-entry
@@ -1347,6 +1361,9 @@ Later elementary work reached
 $x\exp(-c(\log x)^{a})$: $a=1/7-\varepsilon$ by Diamond and Steinig, and
 $a=1/6-\varepsilon$ by Lavrik--Sobirov and Sokolovski\u\i; these are cited
 here from Diamond's survey \cite{diamond-survey} (read).
+Selberg himself noted \cite[footnote~2]{selberg} that his method also
+proves some of Beurling's theorems on generalized primes, with weaker
+results than Beurling's analytic ones.
 
 Diamond \cite[Section~8]{diamond-survey} explains the modest early exponents as
 a limitation of Selberg's formula itself. Every monotone function of the
@@ -1396,13 +1413,16 @@ subtracting the bounded harmonic convolution supplies the first relation
 in \eqref{eq:wirsing}. These arithmetic identities are not among the base
 assumptions of Theorem~\ref{thm:weak-L2}.
 
-In \cite[Section~5]{wirsing2} the statement is made abstract, as Satz~2. Assume
+In \cite[Section~5]{wirsing2} the statement is made abstract, as Satz~2.
+Let $\rho$ be real-valued on $[0,\infty)$, not necessarily continuous, and
+assume, as $\xi\to\infty$,
 \begin{itemize}
  \item $\int_0^\xi|\dd\rho|\ll\xi$;
- \item $|\rho(\xi)-\rho(\eta)|\le\gamma(\xi-\eta)+O(\eta^{-\beta})$ with
-       $\gamma<\sqrt2$;
+ \item $|\rho(\xi)-\rho(\eta)|\le\gamma(\xi-\eta)+O(\eta^{-\beta})$ for
+       $\eta<\xi$, with $\gamma<\sqrt2$;
  \item $\rho(\xi)=\xi^{-1}\int_0^\xi\rho(\xi-\eta)\dd\rho(\eta)
-       +O(\xi^{-\beta})$ with $\beta>-1$.
+       +O(\xi^{-\beta})$ with $\beta>-1$, except at the at most countably
+       many $\xi$ where the integral is undefined.
 \end{itemize}
 Then $\rho(\xi)\ll\xi^{-\beta}$. The example $\rho(\xi)=2\sin\xi$ shows that
 $\gamma\le2$ is not enough.
@@ -1423,8 +1443,8 @@ there differs from its role here (Section~\ref{sec:lit-mechanisms}).
 \begin{remark}[Local density is not necessary]\label{rem:ld-not-needed}
 Lemma~\ref{lem:weak-density} derives
 $\nu((t,t+h])\le2h+O_A(1/t)$ for bounded $h$ from the base hypotheses.
-This interval bound alone does not supply Wirsing's self-convolution
-equation. Theorem~\ref{thm:weak-L2} supplies the additional estimate
+This interval bound does not by itself bound $f*f$ in Wirsing's
+self-convolution equation. Theorem~\ref{thm:weak-L2} supplies the additional estimate
 $f\in L^2(0,\infty)$, and Corollary~\ref{cor:wirsing-bootstrap} then
 applies Satz~2 to $g=-f$. This proves $E(T)=O(T)$ for each admissible
 pair without \eqref{eq:LD}. The original proof with \eqref{eq:LD}
@@ -1433,9 +1453,9 @@ remains a direct route with constants controlled by its hypothesis bounds.
 
 \begin{remark}[The primitive substitution does not give the bridge]
 \label{rem:primitive-obstruction}
-In the arithmetic case Wirsing's variable is, up to a constant,
-$\rho(t)=t-B(t)+C_0$. For a general pair this identification fails. This need not satisfy his
-self-convolution equation, even under \eqref{eq:LD}.
+In the arithmetic case Wirsing's variable is $t-B(t)+C_0$ up to an
+$O(e^{-t})$ term. For a general pair, the function $\rho(t)=t-B(t)+C_0$
+need not satisfy his self-convolution equation, even under \eqref{eq:LD}.
 For a fully specified example, put $\varepsilon=1/4$ and
 \[
  f(t)=-e^{-t}+\varepsilon\frac{\sin\log(1+t)}{1+t},\qquad
@@ -1645,11 +1665,33 @@ contents is drawn.
        in short intervals.
  \item Debruyne and Vindas \cite{dv} develop Laplace-Tauberian remainder
        theorems for Beurling generalized primes.
+ \item Kahane \cite{kahane} proves an $L^2$ prime number theorem for
+       Beurling systems, with an $L^2$ hypothesis on the integer-counting
+       error and an analytic proof. It is not a statement about abstract
+       Selberg-type relations.
+ \item McNamara \cite{mcnamara} gives a dynamical proof of the prime
+       number theorem that also uses Selberg's formula, through an
+       entropy-decrement argument over real averages. It uses neither
+       the Laplace transform nor a flow in $\sigma$, and gives no rate.
  \item The monograph of Diamond and Zhang \cite{diamond-zhang} treats
        Beurling systems and $L^2$ prime number theorems (Kahane), using both
        analytic and elementary methods. It is a compilation and was not
        consulted.
 \end{itemize}
+
+\emph{The author's earlier work.} The certificate of
+Sections~\ref{sec:certificate}--\ref{sec:transfer} continues the author's
+work on sparse matrix representations of the Mertens function
+\cite{kline2019,kline2020,kline2020b,kline-sv,kline-ss}. The matrix of
+\cite{kline2019} has determinant $M(n)$, and its rows annihilate the
+M\"obius vector. Section~7.1 of \cite{kline-ss} notes that any vector $z$
+in the row space gives $M(n)=\mu^{\mathsf T}(\mathbf 1-H^{\mathsf T}z)$, and
+names an explicit choice of coefficients with a uniform residual bound as
+the missing ingredient. Proposition~\ref{prop:certificate} uses a
+different family of relations, $\mu(bm)=\mu(b)\mu(m)$ over divisor labels
+$b$, with an $\ell^1$ residual, and Section~\ref{sec:weights} supplies
+explicit weights. The operators $S_N$, $Z_N$, and $Q_N$ of
+Section~\ref{sec:finite} do not occur in those works.
 
 \subsection{Contribution}
 
@@ -1685,6 +1727,8 @@ Status:
 \begin{itemize}
  \item Proved here: the energy theorem, the density bound for primes, the
        cofactor transfer, and \eqref{eq:arith-conclusions}.
+ \item Proved here without \eqref{eq:LD}: $f\in L^2(0,\infty)$
+       (Theorem~\ref{thm:weak-L2}).
  \item Proved here, assuming Wirsing's Satz~2: the energy bound and
        $f(t)=O(1/t)$ without \eqref{eq:LD}. The constant may depend on
        the particular pair $(f,\nu)$.
@@ -1793,7 +1837,7 @@ Splitting the circular convolution gives, almost everywhere,
                   +\frac{W_T(t)+R(t)}{B_T}\right]+e_T+K_Te_T.
 \end{equation}
 Replacing this residual by $R/B_T$ would omit both the early source and
-the wrap term. Proposition~\ref{prop:circle} alone therefore did not close
+the wrap term. Proposition~\ref{prop:circle} alone therefore does not close
 the weighted arithmetic target. Sections~\ref{sec:scale}--\ref{sec:closure}
 give a complete alternative using exponential windows and retaining
 the initial-source term explicitly.
@@ -1903,5 +1947,62 @@ G. Debruyne and J. Vindas,
 \emph{On General Prime Number Theorems with Remainder},
 arXiv:1601.05324, version 2, 2017.
 \url{https://arxiv.org/abs/1601.05324}.
+Published in \emph{Generalized Functions and Fourier Analysis}, Oper. Theory
+Adv. Appl. \textbf{260}, Birkh\"auser, 2017, 79--94,
+\href{https://doi.org/10.1007/978-3-319-51911-1_6}{doi:10.1007/978-3-319-51911-1\_6}.
+
+\bibitem{selberg-sieve}
+A. Selberg,
+\emph{On an elementary method in the theory of primes},
+Norske Vid. Selsk. Forh. (Trondheim) \textbf{19} (1947), 64--67.
+
+\bibitem{mv}
+H. L. Montgomery and R. C. Vaughan,
+\emph{The large sieve},
+Mathematika \textbf{20} (1973), 119--134,
+\href{https://doi.org/10.1112/S0025579300004708}{doi:10.1112/S0025579300004708}.
+
+\bibitem{kahane}
+J.-P. Kahane,
+\emph{Sur les nombres premiers g\'en\'eralis\'es de Beurling. Preuve d'une
+conjecture de Bateman et Diamond},
+J. Th\'eor. Nombres Bordeaux \textbf{9} (1997), 251--266,
+\href{https://doi.org/10.5802/jtnb.201}{doi:10.5802/jtnb.201}.
+
+\bibitem{mcnamara}
+R. McNamara,
+\emph{A dynamical proof of the prime number theorem},
+Hardy--Ramanujan J. \textbf{44} (2021),
+\href{https://doi.org/10.46298/hrj.2022.8924}{doi:10.46298/hrj.2022.8924}.
+
+\bibitem{kline2019}
+J. Kline,
+\emph{A sparser matrix representation of the Mertens function},
+Linear Algebra Appl. \textbf{581} (2019), 354--366,
+\href{https://doi.org/10.1016/j.laa.2019.07.021}{doi:10.1016/j.laa.2019.07.021}.
+
+\bibitem{kline2020}
+J. Kline,
+\emph{On the eigenstructure of sparse matrices related to the prime number theorem},
+Linear Algebra Appl. \textbf{584} (2020), 409--430,
+\href{https://doi.org/10.1016/j.laa.2019.09.022}{doi:10.1016/j.laa.2019.09.022}.
+
+\bibitem{kline2020b}
+J. Kline,
+\emph{Bordered Hermitian matrices and sums of the M\"obius function},
+Linear Algebra Appl. \textbf{588} (2020), 224--237,
+\href{https://doi.org/10.1016/j.laa.2019.12.004}{doi:10.1016/j.laa.2019.12.004}.
+
+\bibitem{kline-sv}
+J. Kline,
+\emph{The smallest singular value of a sparse Mertens matrix}, research
+release v0.1.0, 2026,
+\href{https://doi.org/10.5281/zenodo.21774716}{doi:10.5281/zenodo.21774716}.
+
+\bibitem{kline-ss}
+J. Kline,
+\emph{The singular spectrum of a sparse Mertens matrix}, research release
+v0.1.0, 2026,
+\href{https://doi.org/10.5281/zenodo.23004980}{doi:10.5281/zenodo.23004980}.
 \end{thebibliography}
 \end{document}

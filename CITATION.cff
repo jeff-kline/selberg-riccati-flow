@@ -10,8 +10,8 @@ repository-code: "https://github.com/jeff-kline/selberg-riccati-flow"
 url: "https://github.com/jeff-kline/selberg-riccati-flow"
 license: GPL-3.0-only
 abstract: >-
-  Wirsing showed in 1962-64 that Selberg's symmetry formula implies
-  psi(x) = x + O(x/log x). This paper gives a different proof of the
+  Wirsing showed in 1962-64, by elementary methods built on Selberg's
+  symmetry formula, that psi(x) = x + O(x/log x). This paper gives a different proof of the
   mean-square form of this bound, int_0^T t^2 f(t)^2 dt = O(T) with
   f(t) = e^{-t} psi(e^t) - 1. On each horizontal line, Selberg's formula
   becomes a Riccati equation for the normalized Laplace transform of the
@@ -21,7 +21,9 @@ abstract: >-
   stays in the half-plane of absolute convergence and uses no analytic
   continuation. For a general positive measure satisfying a Selberg-type
   relation, the method proves f in L^2 without a density hypothesis, which
-  supplies the input for Wirsing's abstract Tauberian theorem. As an
+  supplies the input for Wirsing's abstract Tauberian theorem (stated by
+  Wirsing without a detailed proof); it then gives f(t) = O(1/t), with a
+  constant that may depend on the measure. As an
   application, the energy bound closes a sparse divisor-cofactor
   certificate for the Mertens function, giving M(N) = O(N/log N). These
   rates are classical; the contribution is the method. The proofs were
