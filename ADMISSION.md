@@ -36,7 +36,7 @@ DOI was added only to this living repository.
 | Tag v0.1.0 and GitHub Release | Claude, on the author's authorization | done 2026-10-11 |
 | Living metadata with DOI | Claude, on the author's authorization | done 2026-10-11 |
 | Enable the repository in Zenodo | author (Zenodo portal) | done 2026-10-11 |
-| Public-site listing | author approves title and blurb | pending; recorded here when live |
+| Public-site listing | Claude, on the author's approval of title and blurb | live 2026-10-11 (jeff-kline.github.io commit 04a7c9e, Pages build verified): "Prime number theorem with remainder via a Riccati flow" |
 
 Archive route: Zenodo GitHub integration. The DOI was minted after the GitHub
 Release, so the tagged candidate carries no DOI; the living repository does.
