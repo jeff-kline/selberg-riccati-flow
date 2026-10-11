@@ -1,0 +1,1907 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs,array}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathbb N}
+\newcommand{\C}{\mathbb C}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\dd}{\,\mathrm d}
+\newcommand{\Rea}{\operatorname{Re}}
+\newcommand{\lcm}{\operatorname{lcm}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\Lap}{\mathcal L}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\supp}{supp}
+\setcounter{tocdepth}{1}
+\setlength{\emergencystretch}{2em}
+\hypersetup{pdftitle={Selberg's Formula as a Riccati Flow, with an Application to a Sparse Mertens Certificate},
+  pdfauthor={Jeffery Kline},pdfsubject={Version 0.1.0 (release candidate)}}
+
+\title{Selberg's Formula as a Riccati Flow,\\with an Application to a Sparse
+Mertens Certificate}
+\author{Jeffery Kline}
+\date{October 2026\\[3pt]\small Version 0.1.0 (release candidate)}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+Wirsing showed in 1962--64 that Selberg's symmetry formula implies
+$\psi(x)=x+O(x/\log x)$. We give a different proof of the mean-square form
+of this bound. Let $f(t)=e^{-t}\psi(e^t)-1$, and let $b(s)$ be the Laplace
+transform of the prime-power measure. On each horizontal line
+$s=\sigma+i\xi$, Selberg's formula becomes a Riccati equation for
+$\sigma b(\sigma+i\xi)$ as $\sigma$ decreases. Positivity at the doubled
+frequency $2\xi$ keeps the solution away from the unstable fixed point $-1$.
+A M\"obius substitution then makes the equation linear, which gives a
+resolvent bound uniform in $\xi$. Combined with a local density bound for
+primes from a quadratic sieve, this proves
+$\int_0^T t^2f(t)^2\,\mathrm dt=O(T)$. The proof stays in the half-plane of
+absolute convergence and uses no analytic continuation.
+
+The argument applies to any positive measure that satisfies a Selberg-type
+relation with bounded error. Without the density hypothesis, the same method
+proves $f\in L^2(0,\infty)$. That is what is needed to apply Wirsing's
+abstract Tauberian theorem in this generality, which then gives
+$f(t)=O(1/t)$. As an application, the energy bound closes a sparse
+divisor--cofactor certificate for the Mertens function and gives
+$M(N)=O(N/\log N)$. These rates are classical. The contribution is the
+method.
+\end{abstract}
+
+\noindent\textbf{Status and AI assistance.}
+The proofs in this paper were written with the assistance of AI models and
+were checked by separate AI proof audits. They have not been reviewed by a
+human expert or formally verified. Novelty is qualified in
+Section~\ref{sec:literature}.
+
+\tableofcontents
+
+\section{Introduction}\label{sec:overview}
+
+Let $\mu(n)$ be the M\"obius function, $\Lambda(n)$ the von Mangoldt function,
+and
+\[
+ M(x)=\sum_{n\le x}\mu(n),\qquad
+ \psi(x)=\sum_{n\le x}\Lambda(n),\qquad
+ \vartheta(x)=\sum_{p\le x}\log p.
+\]
+All logarithms are natural. A letter $p$ or $q$ used as an arithmetic index
+denotes a prime. We reserve $\nu$ for positive measures, so that the measure
+in the analytic argument is not confused with $\mu(n)$. Dirichlet convolution
+is denoted by $*_D$; convolution on the additive half-line or a specified
+circle is denoted by $*$. Constants implicit in $O$, $\ll$, and $\asymp$ are
+independent of the scale tending to infinity. They depend only on the
+stated hypothesis bounds, except in Corollary~\ref{cor:wirsing-bootstrap},
+where they may also depend on the particular pair $(f,\nu)$.
+
+The main analytic result is Theorem~\ref{thm:energy}. In the arithmetic
+case it applies to
+\begin{equation}\label{eq:arith-source}
+ f(t)=e^{-t}\psi(e^t)-1,\qquad
+ \nu=\sum_{n\ge2}\frac{\Lambda(n)}n\delta_{\log n},\qquad t\ge0.
+\end{equation}
+and gives
+\begin{equation}\label{eq:main-energy}
+ E(T):=\int_0^T t^2|f(t)|^2\dd t\ll T\qquad(T\ge1).
+\end{equation}
+Equivalently, $\int_T^{2T}|f(t)|^2\dd t\ll T^{-1}$. This is a mean-square
+bound. The pointwise bound $f(t)=O(1/t)$, which is stronger, is due to
+Wirsing \cite{wirsing1,wirsing2}.
+
+\paragraph{How the proof works.}
+Let $b(s)$ be the Laplace transform of $\nu$. On a horizontal line
+$s=\sigma+i\xi$, Selberg's formula becomes the Riccati equation
+$\beta'=-\beta-\beta^2+e$ for $\beta=\sigma b(\sigma+i\xi)$, where the
+derivative is taken as $\sigma$ decreases and the error $e$ is small
+(Section~\ref{sec:scale}). The point $\beta=-1$ is an unstable fixed point.
+If $\beta$ came close to it, positivity of $\nu$ would force
+$\Rea\beta(\sigma,2\xi)$ to stay near $1$. The same Riccati equation at
+frequency $2\xi$ drives it down too fast for that to last. So
+$\beta$ stays away from $-1$, uniformly in $\xi$
+(Lemma~\ref{lem:exclusion}). The substitution $W=\beta/(1+\beta)$ turns the
+Riccati equation into a linear one. Solving it bounds
+$\int|b(u+i\xi)|\dd u$ along each line, which gives a resolvent for $H$,
+the Laplace transform of $f$ (Section~\ref{sec:resolvent}). The remaining
+work is to control $H$ on a starting line and at high frequencies
+(Sections~\ref{sec:tails}--\ref{sec:closure}). This is where the density
+hypothesis \eqref{eq:LD} is used. For primes it follows from a quadratic
+sieve (Section~\ref{sec:sieve}).
+
+\paragraph{Without the density hypothesis.}
+Section~\ref{sec:wirsing-bridge} drops \eqref{eq:LD}. The same argument then
+proves $f\in L^2(0,\infty)$. For a general positive measure, this is
+exactly the missing hypothesis in Wirsing's abstract theorem (his Satz~2),
+so that theorem now gives $f(t)=O(1/t)$ and \eqref{eq:main-energy}. This
+step relies on Wirsing's theorem, which he stated without a detailed proof.
+Nothing else in the paper depends on it.
+
+\paragraph{The application.}
+Sections~\ref{sec:certificate}--\ref{sec:transfer} turn the energy bound
+into an exact finite identity with prime and semiprime coefficients. They
+handle discrete sampling, coprimality, and the finite cutoff explicitly. The
+results are
+\begin{equation}\label{eq:arith-conclusions}
+ |M(N)|\ll\frac{N}{\log N},\qquad
+ \psi(x)=x+O\!\left(\frac{x}{(\log x)^{1/3}}\right).
+\end{equation}
+These rates are classical.
+
+\paragraph{What we think is new.}
+The bounds are not new; the way they are proved is. We see three new
+ingredients.
+\begin{enumerate}
+ \item \emph{Selberg's formula as a differential equation in $\sigma$.}
+       The formula is solved as a quantitative Riccati equation for the
+       Laplace transform, inside the half-plane of absolute convergence.
+       There are two classical routes from Selberg's formula to the prime
+       number theorem. The elementary proofs (Selberg, Erd\H{o}s, Kuhn,
+       Wirsing, Bombieri) work with real-variable convolution inequalities
+       and avoid the Laplace transform. The analytic proofs (Wiener--Geller,
+       the 3-4-1 argument, Tao) use the transform on the boundary line and
+       give no rate. Our argument uses the transform but never reaches the
+       boundary, and it gives a rate.
+ \item \emph{Positivity at $2\xi$ as a barrier for the flow.} The
+       inequality is the one behind the 3-4-1 argument. What is new is how
+       it is used. It keeps the flow a fixed distance from $-1$ for a fixed
+       time, uniformly in $\xi$, and this replaces analyticity.
+ \item \emph{The linearized resolvent and what it gives.} The substitution
+       $W=\beta/(1+\beta)$ turns the flow into a linear equation with a
+       resolvent bounded uniformly in $\xi$. For a general positive measure
+       it gives $f\in L^2$ with no density hypothesis. Through Wirsing's
+       abstract theorem, this makes his pointwise bound $f(t)=O(1/t)$
+       available beyond the arithmetic case (Section~\ref{sec:wirsing-bridge}).
+\end{enumerate}
+We did not find any of these in the sources compared in
+Section~\ref{sec:lit-mechanisms}. That comparison was not exhaustive, so
+priority is not settled.
+
+\paragraph{What the proof uses.}
+Laplace transforms in their half-plane of absolute convergence, Plancherel's
+theorem, and the Poisson kernel. It uses no analytic continuation and no
+zero-free region, no Hahn--Banach theorem, and no imported bound for the
+error in the prime number theorem. All arithmetic inputs are proved or cited
+explicitly.
+
+\paragraph{What is not proved.}
+The resolvent bound holds for a source built from the same measure as its
+convolution multiplier. It is not a bound for arbitrary vectors.
+Sections~\ref{sec:finite} and~\ref{sec:recursion} record the finite
+eigenstructure, singular-vector formulation, and recursions that motivated
+the work, and state which assertions remain open. An earlier estimate on
+the circle is in Appendix~\ref{app:circle}.
+
+\section{The abstract weighted energy theorem}\label{sec:abstract}
+
+\begin{theorem}[Weighted energy for a coupled positive source]\label{thm:energy}
+Let $\nu$ be a positive, locally finite measure on $[0,\infty)$ with no atom
+at zero, and set $B(t)=\nu([0,t])$. Suppose $f$ is real, bounded,
+right-continuous, and locally of bounded variation, with $f(0)=-1$. Assume
+\begin{align}
+ B(t)&=t+O(1),\label{eq:B}\\
+ \nu&=df+(1+f)\dd t\quad\hbox{on }(0,\infty),\label{eq:source}\\
+ R(t)&:=tf(t)+\int_{[0,t]}f(t-u)\nu(\mathrm du)=O(1).\label{eq:R}
+\end{align}
+Assume further that, for $t\ge0$ and $0<h\le1$,
+\begin{equation}\label{eq:LD}
+ \nu((t,t+h])\le C_\ell h+q(t),\qquad
+ 0\le q(t)\le C_q(1+t)^2e^{-t/2}.
+\end{equation}
+Then $E(T)\ll T$ for all $T\ge1$, with a constant depending only on the
+hypothesis bounds.
+\end{theorem}
+
+The derivative in \eqref{eq:source} is the Stieltjes derivative on the positive
+half-line. When a function is extended by zero to negative arguments, its
+boundary value at zero is accounted for separately. In particular,
+integrating \eqref{eq:source} gives the bounded primitive
+\begin{equation}\label{eq:primitive}
+ F(t):=\int_0^t f(u)\dd u=B(t)-t-f(t)-1=O(1).
+\end{equation}
+Right-continuity fixes representatives at atoms; all subsequent $L^2$
+statements are independent of changes on null sets.
+
+For $s=\sigma+i\xi$, $\sigma>0$, define
+\begin{equation}\label{eq:transforms}
+ b(s)=\int_{[0,\infty)}e^{-st}\nu(\mathrm dt),\quad
+ H(s)=\int_0^\infty e^{-st}f(t)\dd t,\quad
+ P(s)=\int_0^\infty e^{-st}R(t)\dd t.
+\end{equation}
+These integrals and their derivatives converge absolutely where used. Our
+Fourier transform is $\widehat u(\xi)=\int_\R e^{-i\xi t}u(t)\dd t$, so
+$\norm{\widehat u}_2^2=2\pi\norm u_2^2$.
+
+\section{The scale equation and two-frequency positivity}\label{sec:scale}
+
+\subsection{The exact Riccati equation}
+Integration by parts, with the boundary value $f(0)=-1$, gives
+\begin{equation}\label{eq:BH}
+ b(s)=(s+1)\left(H(s)+\frac1s\right),\qquad
+ P(s)=-H'(s)+b(s)H(s).
+\end{equation}
+For example, $\int_{(0,\infty)}e^{-st}df(t)=1+sH(s)$; the constant $1$
+must not be dropped. Eliminating $H$ gives
+\begin{equation}\label{eq:riccati-b}
+ -b'(s)+b(s)^2=A(s)b(s)+D(s)+(s+1)P(s),
+\end{equation}
+where
+\[
+ A(s)=1+\frac1{s(s+1)},\qquad D(s)=\frac{s+1}{s^2}.
+\]
+Fix $\xi\ne0$, write $\sigma=a e^{-v}$, and put
+$\beta(\sigma,\xi)=\sigma b(\sigma+i\xi)$. Equation~\eqref{eq:riccati-b}
+becomes
+\begin{equation}\label{eq:riccati-beta}
+ \frac{\mathrm d\beta}{\mathrm dv}=-\beta-\beta^2+e(\sigma,\xi),\qquad
+ e=\sigma A(s)\beta+\sigma^2D(s)+\sigma^2(s+1)P(s).
+\end{equation}
+Let $g(\xi)=1+|\xi|+|\xi|^{-1}$. There is a constant $C_e\ge1$ such that
+\begin{equation}\label{eq:defect}
+ |e(\sigma,\xi)|\le C_e\sigma g(\xi),
+ \qquad 0<\sigma\le\min(1,|\xi|).
+\end{equation}
+Indeed $|P(s)|\le\norm R_\infty/\sigma$,
+$|A(s)|\le1+|\xi|^{-1}$, and
+$|D(s)|\le(2+|\xi|)/|\xi|^2$. Positivity and \eqref{eq:B} give
+\begin{equation}\label{eq:csigma}
+ |\beta(\sigma,\xi)|\le c_\sigma:=\sigma b(\sigma),\qquad
+ |c_\sigma-1|\le C_B\sigma,
+\end{equation}
+where $C_B\ge1$ bounds $|B(t)-t|$. To see the last estimate, use
+$c_\sigma=\sigma^2\int_0^\infty e^{-\sigma t}B(t)\dd t$.
+The term $\sigma^2/|\xi|^2$ in the defect is at most $\sigma/|\xi|$ in
+the stated range. The high-frequency loss in \eqref{eq:defect} is retained.
+
+\subsection{Uniform exclusion of the multiplier \texorpdfstring{$-1$}{-1}}
+Fix, once and for all,
+\begin{equation}\label{eq:c-choice}
+ 0<c\le\min\left\{10^{-3},\frac1{1000C_B},\frac1{2000C_e}\right\},
+ \qquad a(\xi)=\frac{c}{g(\xi)}.
+\end{equation}
+For $0<\sigma\le a(\xi)$, both $\xi$ and $2\xi$ lie in the range of
+\eqref{eq:defect}, and
+\begin{equation}\label{eq:small-defects}
+ |c_\sigma-1|\le10^{-3},\qquad
+ |e(\sigma,\xi)|\le10^{-3},\qquad
+ |e(\sigma,2\xi)|\le10^{-3}.
+\end{equation}
+Here $g(2\xi)\le2g(\xi)$ supplies the second-frequency bound. No condition
+$\sigma\le a(2\xi)$ is needed.
+
+The measure $e^{-\sigma t}\nu(\mathrm dt)/b(\sigma)$ is a probability measure.
+For $U=e^{-i\xi t}$, the identity $\Rea U^2=2(\Rea U)^2-1$ and the
+nonnegativity of variance give
+\begin{equation}\label{eq:two-freq}
+ \Rea\beta(\sigma,2\xi)
+ \ge\frac{2(\Rea\beta(\sigma,\xi))^2}{c_\sigma}-c_\sigma.
+\end{equation}
+
+\begin{lemma}\label{lem:exclusion}
+For every $\xi\ne0$ and $0<\sigma\le a(\xi)$,
+$|1+\beta(\sigma,\xi)|\ge1/100$.
+\end{lemma}
+\begin{proof}
+Suppose the distance is less than $1/100$ at a starting value $\sigma_*$.
+Follow \eqref{eq:riccati-beta} for $\sigma=\sigma_*e^{-v}$,
+$0\le v\le\log2$. For $y=1+\beta(\sigma,\xi)$,
+$y'=-\beta y+e$. Since $|\beta|\le1.001<2$, Gronwall's inequality yields
+\[
+ |y(v)|\le e^{2v}|y(0)|+\frac{e^{2v}-1}{2000}
+ <\frac4{100}+\frac3{2000}<\frac1{20}.
+\]
+Hence $\Rea\beta(\sigma,\xi)<-19/20$. Equation~\eqref{eq:two-freq} gives
+$u(v):=\Rea\beta(\sigma,2\xi)\ge4/5$ throughout the interval. The same
+scale equation at $2\xi$ and \eqref{eq:small-defects} imply
+\[
+ u'\le-u-2u^2+|\beta(\sigma,2\xi)|^2+10^{-3}
+ \le-\frac45-2\left(\frac45\right)^2+(1.001)^2+10^{-3}<-1.
+\]
+This is impossible: $u$ must remain in $[0.8,1.001]$, an interval of length
+$0.201$, for time $\log2>0.69$.
+\end{proof}
+
+\section{A uniform resolvent along the actual source}\label{sec:resolvent}
+
+For a fixed nonzero $\xi$, set $a=a(\xi)$, $\sigma=ae^{-v}$, and
+$W=\beta/(1+\beta)$. The exact cancellation of the quadratic term gives
+\begin{equation}\label{eq:W}
+ W'+W=\frac{e}{(1+\beta)^2}.
+\end{equation}
+Lemma~\ref{lem:exclusion} bounds the denominator away from zero.
+Also $|W(0)|\le101$ and $|e|\le C_e c e^{-v}$, so
+\begin{align}
+ |W(v)|&\ll(1+v)e^{-v},\notag\\
+ |\beta(\sigma,\xi)|&\ll\frac\sigma a\left(1+\log\frac a\sigma\right),
+ \label{eq:beta-decay}\\
+ |b(\sigma+i\xi)|&\ll\frac1a\left(1+\log\frac a\sigma\right).
+ \label{eq:b-decay}
+\end{align}
+For the second line use $\beta=(1+\beta)W$ and $|1+\beta|\le2.001$.
+In particular,
+\begin{equation}\label{eq:integrated-b}
+ \int_0^{a(\xi)}|b(u+i\xi)|\dd u\ll1
+\end{equation}
+uniformly in $\xi\ne0$.
+
+Solving the actual source equation $H'=bH-P$ along the horizontal line
+gives
+\begin{align}
+ H(\sigma+i\xi)
+ ={}&\exp\!\left(-\int_\sigma^a b(v+i\xi)\dd v\right)H(a+i\xi)
+ \notag\\
+ &+\int_\sigma^a
+  \exp\!\left(-\int_\sigma^u b(v+i\xi)\dd v\right)P(u+i\xi)\dd u.
+ \label{eq:source-formula}
+\end{align}
+Differentiation in $\sigma$ verifies both the sign and integration direction.
+Writing $H_*(\xi)=H(a(\xi)+i\xi)$, \eqref{eq:integrated-b} implies
+\begin{equation}\label{eq:source-bound}
+ |H(\sigma+i\xi)|\ll |H_*(\xi)|+
+              \int_\sigma^{a(\xi)}|P(u+i\xi)|\dd u.
+\end{equation}
+The initial-source term $H_*$ is retained. Its control is an essential part
+of the proof, not an independently assumed smallness condition.
+
+\section{Translation estimates and weighted Fourier tails}\label{sec:tails}
+
+\begin{lemma}\label{lem:translations}
+For $k\in\{0,1\}$, put $U_{\sigma,k}(t)=t^ke^{-\sigma t}f(t)$ on
+$[0,\infty)$ and zero on $(-\infty,0)$. For $0<\sigma\le1$ and $0<h\le1$,
+\begin{equation}\label{eq:translation}
+ \norm{U_{\sigma,k}(\cdot-h)-U_{\sigma,k}}_2^2
+ \ll h^2\sigma^{-2k-1}+h.
+\end{equation}
+\end{lemma}
+\begin{proof}
+Solving \eqref{eq:source} over $(t,t+h]$ gives
+\[
+ f(t+h)-f(t)=(e^{-h}-1)(1+f(t))
+       +\int_{(t,t+h]}e^{u-t-h}\nu(\mathrm du).
+\]
+Consequently $|f(t+h)-f(t)|$ is bounded both by
+$Ch+\nu((t,t+h])$ and by $Ch+q(t)$. Multiply these two bounds.
+With $w(t)=(1+t)^{2k}e^{-2\sigma t}$, the resulting four terms are controlled
+by
+\begin{align*}
+ h^2\int_0^\infty w(t)\dd t&\ll h^2\sigma^{-2k-1},\\
+ h\int_0^\infty w(t)\nu((t,t+h])\dd t&\ll h^2\sigma^{-2k-1},\\
+ h\int_0^\infty w(t)q(t)\dd t&\ll h,\\
+ \int_0^\infty w(t)q(t)\nu((t,t+h])\dd t&\ll h.
+\end{align*}
+For the second line, Tonelli's theorem restricts $t$ to an interval of
+length at most $h$ adjacent to the integration variable $u$. On that
+interval $w(t)\ll(1+u)^{2k}e^{-2\sigma u}$. The measure moment is
+$O(\sigma^{-2k-1})$ by $B(u)=u+O(1)$. For the fourth line use the
+majorant $(1+u)^{2k+2}e^{-u/2}$ for $w(t)q(t)$ on the same interval;
+its integral against $\nu$ is finite uniformly in $\sigma$. This uses the
+majorant of $q$, not any unasserted regularity of $q$ itself.
+
+For the change of weight $v_k(t)=t^ke^{-\sigma t}$, Cauchy--Schwarz gives
+$\int_0^\infty|v_k(t+h)-v_k(t)|^2\dd t\le h^2\norm{v_k'}_2^2$.
+The latter is $O(h^2\sigma)$ for $k=0$ and $O(h^2/\sigma)$ for $k=1$,
+both within the stated bound. Finally the boundary strip at zero costs
+$O(h^{2k+1})$. These estimates prove \eqref{eq:translation}.
+\end{proof}
+
+Average the Fourier translation identity over $0<h<2/K$, $K\ge2$.
+For $|\xi|\ge K$ the averaged multiplier is
+\[
+ 2\left(1-\frac{\sin(2\xi/K)}{2\xi/K}\right)\ge1.
+\]
+Since the transforms of $U_{\sigma,0}$ and $U_{\sigma,1}$ are respectively
+$H(\sigma+i\xi)$ and $-H'(\sigma+i\xi)$, we obtain
+\begin{align}
+ \int_{|\xi|\ge K}|H(\sigma+i\xi)|^2\dd\xi
+   &\ll\frac1{\sigma K^2}+\frac1K,\label{eq:tail-H}\\
+ \int_{|\xi|\ge K}|H'(\sigma+i\xi)|^2\dd\xi
+   &\ll\frac1{\sigma^3K^2}+\frac1K.\label{eq:tail-Hprime}
+\end{align}
+The terms $1/K$ explicitly retain the atomic and initial-boundary costs.
+
+\section{The variable starting line}\label{sec:start}
+
+\begin{lemma}\label{lem:start}
+The initial-source term satisfies
+\begin{align}
+ \int_{r\le|\xi|\le2r}|H_*(\xi)|^2\dd\xi&\ll r&& (0<r\le1),
+ \label{eq:low-start}\\
+ \int_{Q\le|\xi|\le2Q}|H_*(\xi)|^2\dd\xi&\ll Q^{-1}&& (Q\ge1).
+ \label{eq:high-start}
+\end{align}
+\end{lemma}
+\begin{proof}
+By \eqref{eq:primitive},
+$H(s)=s\int_0^\infty e^{-st}F(t)\dd t$, whence
+$|H(s)|\ll|s|/\Rea s$. On a low shell, $a(\xi)\asymp cr$ and
+$|a(\xi)+i\xi|\asymp r$. This proves \eqref{eq:low-start}.
+
+For a positive high shell $Q\le\xi\le2Q$, $Q\ge1$, we have
+\[
+ \frac c{4Q}\le a(\xi)\le\frac cQ.
+\]
+Set $\tau=c/(8Q)$ and $d(\xi)=a(\xi)-\tau$. Then
+$d_1:=c/(8Q)\le d(\xi)\le7c/(8Q)=:d_2$.
+For the Poisson kernel $\mathcal P_d(y)=d/[\pi(d^2+y^2)]$,
+\begin{equation}\label{eq:poisson}
+ H(a(\xi)+i\xi)=\mathcal P_{d(\xi)}*[H(\tau+i\cdot)](\xi).
+\end{equation}
+For fixed $d$ this follows by Fourier transformation: convolution by
+$\mathcal P_d$ multiplies the original half-line function by
+$e^{-d|t|}=e^{-dt}$. Both sides are continuous on the positive half-plane,
+so they can be evaluated at each indicated $(d(\xi),\xi)$.
+
+Jensen's inequality bounds the square in \eqref{eq:poisson} by the
+Poisson average of $|H(\tau+i\cdot)|^2$. The dependence of $d$ on $\xi$
+does not invalidate integration, because
+\begin{equation}\label{eq:poisson-ratio}
+ \mathcal P_{d(\xi)}(y)\le\frac{d_2}{d_1}\mathcal P_{d_1}(y)
+ \le7\mathcal P_{d_1}(y).
+\end{equation}
+Thus frequencies $\eta\in[Q/2,3Q]$ contribute at most
+\[
+ C\int_{|\eta|\ge Q/2}|H(\tau+i\eta)|^2\dd\eta\ll Q^{-1}
+\]
+by \eqref{eq:tail-H} when $Q\ge4$. Outside this enlarged shell,
+$|\xi-\eta|\ge Q/2$, so the kernel is $O(Q^{-3})$ and its integral over
+$\xi\in[Q,2Q]$ is $O(Q^{-2})$. That contribution is at most
+\[
+ \frac C{Q^2}\int_\R|H(\tau+i\eta)|^2\dd\eta
+ \ll\frac1{Q^2\tau}\ll Q^{-1},
+\]
+using bounded $f$ and Plancherel. The negative shell is identical. The
+bounded range $1\le Q<4$ follows from $|H(a+i\xi)|\ll1/a$ with adjusted
+constants. This proves \eqref{eq:high-start}, including off-shell leakage.
+\end{proof}
+
+\section{Closure of the weighted estimate}\label{sec:closure}
+
+We now prove Theorem~\ref{thm:energy}. Fix
+\begin{equation}\label{eq:threshold}
+ 0<\sigma\le\sigma_0:=c/16,\qquad
+ \eta_0=4\sigma/c,\qquad K=c/(4\sigma).
+\end{equation}
+Then $\eta_0\le1/4$ and $K\ge4$. Throughout
+$\eta_0\le|\xi|\le K$ we have $\sigma\le a(\xi)$: use
+$g(\xi)\le3/|\xi|$ for $|\xi|\le1$ and $g(\xi)\le3|\xi|$ for
+$|\xi|\ge1$. We claim
+\begin{equation}\label{eq:global-Hprime}
+ \int_\R|H'(\sigma+i\xi)|^2\dd\xi\ll\sigma^{-1}.
+\end{equation}
+
+For $|\xi|\le\eta_0$, differentiating the primitive formula gives
+$|H'(s)|\ll\sigma^{-1}+|s|\sigma^{-2}\ll\sigma^{-1}$. The interval has
+length $O(\sigma)$, so its squared integral is $O(\sigma^{-1})$.
+For $|\xi|\ge K$, \eqref{eq:tail-Hprime} gives the same bound.
+
+In the middle range, $H'=bH-P$ and
+\begin{equation}\label{eq:P-L2}
+ \int_\R|P(u+i\xi)|^2\dd\xi
+ =2\pi\int_0^\infty e^{-2ut}|R(t)|^2\dd t\ll u^{-1}.
+\end{equation}
+It suffices to prove
+\begin{equation}\label{eq:betaH}
+ \int_{\eta_0\le|\xi|\le K}|\beta(\sigma,\xi)H(\sigma+i\xi)|^2\dd\xi
+ \ll\sigma.
+\end{equation}
+Apply \eqref{eq:source-bound}, retaining both terms.
+
+The initial-source contribution on a low dyadic shell $[r,2r]$ is, by
+\eqref{eq:beta-decay} and \eqref{eq:low-start}, at most
+\[
+ C\frac{\sigma^2}{r}\left(1+\log\frac r\sigma\right)^2.
+\]
+Summing upwards from $r=\eta_0$ costs $O(\sigma)$, since
+$\sum_{j\ge0}2^{-j}(1+j)^2<\infty$. On a high shell $[Q,2Q]$,
+\eqref{eq:high-start} gives at most
+\[
+ C\sigma^2Q\left(1+\log\frac1{\sigma Q}\right)^2.
+\]
+Summing downwards from a shell comparable to $K$ again costs $O(\sigma)$.
+End shells can be intersected with the middle range. All comparison constants
+depend only on the fixed $c$.
+
+For the forcing contribution, abbreviate $a=a(\xi)$ and use
+Cauchy--Schwarz in $u$:
+\begin{align}
+ |\beta|^2\left(\int_\sigma^a|P(u+i\xi)|\dd u\right)^2
+ \ll\frac{\sigma^2}{a}\left(1+\log\frac a\sigma\right)^2
+                \int_\sigma^a|P(u+i\xi)|^2\dd u.\label{eq:force-CS}
+\end{align}
+For $\sigma\le u\le a$,
+\begin{equation}\label{eq:weight-comparison}
+ \frac{(1+\log(a/\sigma))^2}{a}
+ \le2\frac{(1+\log(u/\sigma))^2}{u}.
+\end{equation}
+Indeed $(1+\log x)^2/x$ increases on $[1,e]$ from $1$ to $4/e<2$ and
+decreases thereafter. Tonelli's theorem, \eqref{eq:P-L2}, and $a(\xi)\le c$
+bound the integral of \eqref{eq:force-CS} over the middle range by
+\[
+ C\sigma^2\int_\sigma^c\frac{(1+\log(u/\sigma))^2}{u^2}\dd u
+ \le C\sigma\int_1^\infty\frac{(1+\log y)^2}{y^2}\dd y\ll\sigma.
+\]
+This proves \eqref{eq:betaH} and \eqref{eq:global-Hprime}. The forcing was
+charged in $L^2$ across frequencies; replacing it everywhere by its pointwise
+bound $C/u$ would discard this control.
+
+Finally, Plancherel gives
+\[
+ \int_0^\infty t^2e^{-2\sigma t}|f(t)|^2\dd t
+ =\frac1{2\pi}\int_\R|H'(\sigma+i\xi)|^2\dd\xi\ll\sigma^{-1}.
+\]
+For $T\ge\sigma_0^{-1}$, set $\sigma=1/T$ and use $e^{-2t/T}\ge e^{-2}$
+on $[0,T]$. For $1\le T<\sigma_0^{-1}$, boundedness of $f$ gives
+$E(T)\le\norm f_\infty^2T^3/3\ll T$ with the permitted constant.
+This completes the abstract proof.
+
+\section{Removing the density hypothesis}\label{sec:wirsing-bridge}
+
+The separate hypothesis \eqref{eq:LD} can be removed if Wirsing's abstract
+Tauberian theorem is used as an additional input. The connecting estimate
+is global square-integrability of the actual source. We prove it below
+from \eqref{eq:B}--\eqref{eq:R}, using only the parts of the preceding
+resolvent argument that do not use \eqref{eq:LD}. This gives a second route
+to the energy conclusion; the proof in Sections~\ref{sec:scale}--\ref{sec:closure}
+continues to give that conclusion without invoking Wirsing.
+
+\begin{lemma}[An interval bound from positivity]\label{lem:weak-density}
+Under the base hypotheses \eqref{eq:B}--\eqref{eq:R}, for every fixed
+$A>0$,
+\begin{equation}\label{eq:weak-density}
+ \nu((t,t+h])\le 2h+\frac{C_A}{t}
+ \qquad(t\ge2,\ 0<h\le A).
+\end{equation}
+In particular, $\nu((t,t+h])\le2h+C/(1+t)$ for $t\ge0$ and $0<h\le1$.
+\end{lemma}
+\begin{proof}
+The function $R$ is locally of bounded variation. Differentiation on the
+positive half-line gives the measure identity
+\begin{equation}\label{eq:measure-R}
+ dR=(t-1)\nu+\nu*\nu+(f-t-B-R)\dd t.
+\end{equation}
+Indeed $d(f*\nu)=df*\nu-\nu$, with the last term supplied by $f(0)=-1$.
+Substitute $df=\nu-(1+f)\dd t$ and $f*\nu=R-tf$ to obtain
+\eqref{eq:measure-R}. Positivity, integrated over $(t,t+h]$, now gives
+\[
+ (t-1)\nu((t,t+h])
+ \le R(t+h)-R(t)+\int_t^{t+h}(u+B(u)+R(u)-f(u))\dd u
+ \le 2th+h^2+Ch+2\norm R_\infty.
+\]
+Division by $t-1$ proves \eqref{eq:weak-density}; the bounded initial
+interval is absorbed by increasing the constant.
+\end{proof}
+
+\begin{theorem}[Square-integrability without a separate density input]
+\label{thm:weak-L2}
+Assume all the base hypotheses of Theorem~\ref{thm:energy}, including
+\eqref{eq:B}--\eqref{eq:R}, but omit \eqref{eq:LD}. Then
+\begin{equation}\label{eq:unweighted-L2}
+ \int_0^\infty |f(t)|^2\dd t<\infty.
+\end{equation}
+The integral is bounded in terms of the base hypothesis bounds.
+\end{theorem}
+\begin{proof}
+Write $\ell_\sigma=\log(e/\sigma)$ for $0<\sigma\le1$.
+Use Lemma~\ref{lem:weak-density} in the proof of
+Lemma~\ref{lem:translations}, with $k=0$ and $q(t)=C/(1+t)$.
+The two bounds for the source increment are now
+$Ch+\nu((t,t+h])$ and $Ch+C/(1+t)$. Multiplication and Tonelli give
+\begin{equation}\label{eq:weak-translation}
+ \norm{U_{\sigma,0}(\cdot-h)-U_{\sigma,0}}_2^2
+ \ll h^2/\sigma+h\ell_\sigma\qquad(0<h\le1).
+\end{equation}
+For the two terms containing $q$, use
+\[
+ \int_0^\infty\frac{e^{-2\sigma u}}{1+u}
+       \bigl(\dd u+\nu(\mathrm du)\bigr)\ll\ell_\sigma.
+\]
+The measure estimate follows by dividing into unit intervals and using
+$B(u)=u+O(1)$. Weight changes and the strip at zero cost
+$O(h^2\sigma+h)$, within \eqref{eq:weak-translation}.
+Averaging the Fourier translation identity as before yields
+\begin{equation}\label{eq:weak-tail}
+ \int_{|\xi|\ge K}|H(\sigma+i\xi)|^2\dd\xi
+ \ll\frac1{\sigma K^2}+\frac{\ell_\sigma}{K},\qquad K\ge2.
+\end{equation}
+
+The scale equation, two-frequency exclusion, and source resolvent in
+Sections~\ref{sec:scale}--\ref{sec:resolvent} used only the base hypotheses.
+Retain their $c$, $a(\xi)$, and $H_*(\xi)$. The low-shell bound
+\eqref{eq:low-start} also used only boundedness of $F$. On a high shell,
+repeat the Poisson argument of Lemma~\ref{lem:start}, now with
+\eqref{eq:weak-tail} on the line $\tau=c/(8Q)$. The enlarged shell costs
+$O(\log(2Q)/Q)$, and the off-shell leakage is still $O(1/Q)$.
+The bounded ratio of widths in \eqref{eq:poisson-ratio} is unchanged. Thus
+\begin{equation}\label{eq:weak-start}
+ \int_{Q\le|\xi|\le2Q}|H_*(\xi)|^2\dd\xi
+ \ll\frac{\log(2Q)}Q\qquad(Q\ge1).
+\end{equation}
+The tail calculation uses $Q\ge4$; the remaining compact range
+$1\le Q<4$ follows from boundedness of $f$ and a positive lower bound
+for $a(\xi)$ there.
+Both this high-shell series and the low-shell series $O(r)$ converge
+dyadically, so $\norm{H_*}_2\ll1$.
+
+Fix $0<\sigma\le c/16$ and let
+$D_\sigma=\{4\sigma/c\le|\xi|\le c/(4\sigma)\}$.
+Here $\sigma\le a(\xi)$, so \eqref{eq:source-bound} applies. Its forcing
+term is bounded in $L^2$ by Minkowski's inequality:
+\begin{align}
+ \left\|\ind_{D_\sigma}\int_\sigma^{a(\xi)}|P(u+i\xi)|\dd u\right\|_2
+ &\le\int_\sigma^c
+       \norm{\ind_{D_\sigma}\ind_{\{u\le a(\xi)\}}P(u+i\xi)}_2\dd u
+ \notag\\
+ &\ll\int_\sigma^c u^{-1/2}\dd u\ll1.\label{eq:weak-force}
+\end{align}
+The estimate on $P$ is precisely \eqref{eq:P-L2}, which requires only
+bounded $R$. Hence $\int_{D_\sigma}|H(\sigma+i\xi)|^2\dd\xi\ll1$.
+On $|\xi|<4\sigma/c$, the bounded primitive gives
+$|H(s)|\ll|s|/\sigma\ll1$, at squared-integral cost $O(\sigma)$.
+On $|\xi|>c/(4\sigma)$, \eqref{eq:weak-tail} costs
+$O(\sigma\ell_\sigma)$. We have proved
+\[
+ \sup_{0<\sigma\le c/16}\int_\R|H(\sigma+i\xi)|^2\dd\xi<\infty.
+\]
+Plancherel and monotone convergence as $\sigma\downarrow0$ prove
+\eqref{eq:unweighted-L2}. This proof has not used the weighted energy
+theorem or any pointwise PNT consequence.
+\end{proof}
+
+\begin{corollary}[A bootstrap using Wirsing]\label{cor:wirsing-bootstrap}
+Under the hypotheses of Theorem~\ref{thm:weak-L2}, Wirsing's Satz~2
+\cite[Section~5, p.~15]{wirsing2} gives
+\begin{equation}\label{eq:wirsing-bootstrap}
+ f(t)=O(t^{-1}),\qquad E(T)=O(T).
+\end{equation}
+In the arithmetic instance, this yields $\psi(x)=x+O(x/\log x)$.
+This corollary depends on Wirsing's Satz~2, which he stated without a
+detailed proof \cite[p.~15]{wirsing2}. The direct proof of the weaker
+pointwise rate in Corollary~\ref{cor:PNT} does not depend on it.
+\end{corollary}
+\begin{proof}
+First $f(t)\to0$. The source equation and Lemma~\ref{lem:weak-density}
+give $|f(t+h)-f(t)|\le Ch+C/(1+t)$ for $0<h\le1$.
+If $|f(t_j)|\ge\varepsilon$ at arbitrarily large $t_j$, this inequality
+gives disjoint forward intervals of a fixed positive length on which
+$|f|\ge\varepsilon/2$, contradicting \eqref{eq:unweighted-L2}.
+This also treats the right-continuous values at atoms.
+
+Put $g=-f$ and fix $\delta>0$ with $\gamma:=1+\delta<\sqrt2$.
+For all sufficiently large $t$, $|f(u)|\le\delta$ for $u\ge t$.
+For each fixed $A$ the exact increment identity and
+\eqref{eq:weak-density} give
+\[
+ -(1+\delta)h\le f(t+h)-f(t)
+ =\nu((t,t+h])-h-\int_t^{t+h}f(u)\dd u
+ \le(1+\delta)h+C_A/t\qquad(0<h\le A).
+\]
+Taking $A=\max(1,2\norm f_\infty)$ handles all larger $h$ by boundedness.
+Consequently
+\begin{equation}\label{eq:bridge-fluctuation}
+ |g(t+h)-g(t)|\le\gamma h+O(t^{-1}),\qquad h>0.
+\end{equation}
+Also $\int_{(0,T]}|dg|\le B(T)+\int_0^T|1+f|\dd t=O(T)$.
+Finally, expanding $f*\nu$ using the source equation gives the exact identity
+\begin{equation}\label{eq:bridge-selfconv}
+ tg-g*dg=F+f*f-R=O(1),
+\end{equation}
+because $|f*f|\le\norm f_2^2$ and both $F$ and $R$ are bounded.
+Thus $g$ has the total-variation bound, fluctuation bound with
+$\gamma<\sqrt2$, and self-convolution equation required by Satz~2,
+with $\beta=1$.
+
+Wirsing uses a zero extension at $0-$ and allows the countably many
+points where a Stieltjes convolution is undefined. Adding the initial
+atom to our derivative convention changes $g*dg$ by $g(0)g(t)$, a bounded
+term. If $J$ is the countable jump set of $g$, simultaneous interior
+jumps occur only for $t\in J+J$. Outside this countable set the
+Riemann--Stieltjes and measure convolutions agree; the printed exception
+covers the remaining points. The upper-endpoint value agrees because
+$g$ is right-continuous at zero. Therefore his theorem applies
+and proves \eqref{eq:wirsing-bootstrap}. The pointwise implied constant
+here is asserted for each fixed admissible pair; uniform dependence solely
+on the original hypothesis bounds is not claimed by this bootstrap.
+\end{proof}
+
+\section{Classical arithmetic inputs and the coupled source}\label{sec:inputs}
+
+We record the classical arithmetic ingredients to make clear where the
+analytic hypotheses come from. None is a PNT remainder assumption.
+
+\begin{lemma}[Chebyshev and the harmonic prime-power sum]\label{lem:elementary}
+For $x\ge2$,
+\begin{equation}\label{eq:elementary}
+ \vartheta(x)\ll x,\qquad \psi(x)\ll x,\qquad
+ \sum_{n\le x}\frac{\Lambda(n)}n=\log x+O(1).
+\end{equation}
+Also $\pi(x)\ll x/\log x$.
+\end{lemma}
+\begin{proof}
+Every prime in $(n,2n]$ divides $\binom{2n}{n}$, so
+$\vartheta(2n)-\vartheta(n)\le2n\log2$. Summing at powers of two and using
+monotonicity gives $\vartheta(x)\ll x$. The identity
+$\psi(x)=\sum_{a\ge1}\vartheta(x^{1/a})$ then gives $\psi(x)\ll x$:
+the $a\ge2$ terms are $O(\sqrt{x}\log x)=O(x)$.
+
+From $\sum_{d\mid n}\Lambda(d)=\log n$,
+\[
+ \sum_{d\le x}\Lambda(d)\left\lfloor\frac xd\right\rfloor
+ =\sum_{n\le x}\log n=x\log x-x+O(\log(2x)).
+\]
+Replacing the floor by $x/d$ costs at most $\psi(x)=O(x)$, which proves
+the harmonic estimate. Finally primes greater than $\sqrt{x}$ each
+contribute at least $(\log x)/2$ to $\vartheta(x)$; the remaining count
+is at most $\sqrt{x}$. This proves the bound on $\pi$.
+\end{proof}
+
+\begin{lemma}[Selberg's symmetry formula]\label{lem:selberg}
+For $x\ge2$,
+\begin{equation}\label{eq:selberg}
+ \sum_{n\le x}\bigl(\Lambda(n)\log n+(\Lambda*_D\Lambda)(n)\bigr)
+ =2x\log x+O(x).
+\end{equation}
+\end{lemma}
+\begin{proof}
+Here is the elementary inversion argument, in the form discussed
+in \cite[Section 1]{tao}. Put
+$\Lambda_2(n)=\sum_{d\mid n}\mu(d)\log^2(n/d)$.
+The identity $\Lambda_2=\Lambda\log+ \Lambda*_D\Lambda$ follows by
+applying logarithmic differentiation to $\mathbf1*_D\Lambda=\log$
+and then convolving with $\mu$.
+
+Integral comparison and partial summation give constants $c_1,c_2,c_3$ with
+\begin{align*}
+ \frac1y\sum_{n\le y}\log^2n
+   &=\log^2y-2\log y+2+O\!\left(\frac{\log^2(2+y)}y\right),\\
+ \sum_{n\le y}\frac1n&=\log y+c_1+O(y^{-1}),\\
+ \sum_{n\le y}\frac{\log(y/n)}n
+   &=\tfrac12\log^2y+c_2\log y+c_3
+       +O\!\left(\frac{\log(2+y)}y\right).
+\end{align*}
+For the last line one may integrate the preceding harmonic estimate;
+its $O(1/y)$ remainder has a convergent integral against $dy/y$.
+Consequently there are constants $c_4,c_5$ such that
+\[
+ \frac1y\sum_{n\le y}\log^2n
+ =\sum_{m\le y}\frac{2\log(y/m)+c_4+c_5/(y/m)}m
+   +O\!\left(\frac{\log^2(2+y)}y\right).
+\]
+Insert $y=x/d$ and sum with coefficient $\mu(d)/d$.
+The error is bounded by
+$x^{-1}\sum_{d\le x}\log^2(2+x/d)=O(1)$, as follows by dyadic grouping.
+Grouping the main term by $k=dm$ and using
+$\sum_{d\mid k}\mu(d)=\ind_{k=1}$ leaves
+$2\log x+c_4+c_5/x$. Multiplication by $x$ proves the lemma.
+\end{proof}
+
+\begin{proposition}\label{prop:arithmetic-source}
+The source and measure in \eqref{eq:arith-source} satisfy
+\eqref{eq:B}--\eqref{eq:R}.
+\end{proposition}
+\begin{proof}
+The jump of $f$ at $\log n$ is $\Lambda(n)/n$, and between jumps
+$f'=-(1+f)$. Also $f(0)=-1$ and $\nu$ has no atom at zero. Thus
+\eqref{eq:source} holds with the stated endpoint convention.
+Lemma~\ref{lem:elementary} supplies bounded $f$ and $B(t)=t+O(1)$.
+
+Put $x=e^t$. Partial summation and Chebyshev give
+\[
+ \sum_{n\le x}\Lambda(n)\log n
+   =\psi(x)\log x-\int_1^x\frac{\psi(u)}u\dd u
+   =\psi(x)\log x+O(x).
+\]
+Moreover
+\[
+ \frac1x\sum_{n\le x}(\Lambda*_D\Lambda)(n)
+ =\sum_{k\le x}\frac{\Lambda(k)}k
+       \bigl(1+f(\log x-\log k)\bigr)
+ =B(t)+(f*\nu)(t).
+\]
+Divide \eqref{eq:selberg} by $x$ and substitute these identities.
+The two main terms $t$ cancel against $2t$, leaving
+$tf(t)+(f*\nu)(t)=O(1)$ uniformly for $t\ge\log2$.
+The bounded initial interval is harmless.
+\end{proof}
+
+\section{The local-density hypothesis from a quadratic sieve}\label{sec:sieve}
+
+\begin{lemma}[A coarse uniform interval sieve]\label{lem:sieve}
+For $X\ge1$ and $Y\ge2$,
+\begin{equation}\label{eq:interval-sieve}
+ \pi(X+Y)-\pi(X)\ll\frac{Y}{\log Y}.
+\end{equation}
+\end{lemma}
+\begin{proof}
+For an integer $z\ge1$, write
+$G_z=\sum_{\ell\le z}\mu(\ell)^2/\varphi(\ell)$.
+Choose real weights $\lambda_d$ supported on $d\le z$, with $\lambda_1=1$.
+The identity $\gcd(d,e)=\sum_{\ell\mid d,\,\ell\mid e}\varphi(\ell)$ gives
+\begin{equation}\label{eq:sieve-form}
+ Q(\lambda):=\sum_{d,e\le z}\frac{\lambda_d\lambda_e}{\lcm(d,e)}
+ =\sum_{\ell\le z}\varphi(\ell)
+       \left(\sum_{\substack{d\le z\\\ell\mid d}}\frac{\lambda_d}{d}\right)^2.
+\end{equation}
+Put $x_\ell=\sum_{\ell\mid d,\,d\le z}\lambda_d/d$. Inversion gives
+$\lambda_1=\sum_{\ell\le z}\mu(\ell)x_\ell$.
+Cauchy--Schwarz therefore proves $Q(\lambda)\ge1/G_z$, with equality at
+$x_\ell=\mu(\ell)/(\varphi(\ell)G_z)$. Inverting these minimizing values,
+\[
+ \lambda_d=\frac{\mu(d)d}{\varphi(d)G_z}
+    \sum_{\substack{k\le z/d\\(k,d)=1}}\frac{\mu(k)^2}{\varphi(k)}.
+\]
+Thus $|\lambda_d|\le d/\varphi(d)\le d$ and
+$\sum_{d\le z}|\lambda_d|\le z^2$.
+
+For each prime $n>z$, $\sum_{d\mid n}\lambda_d=1$.
+Summing the nonnegative square of this divisor sum on $(X,X+Y]$ gives
+\begin{equation}\label{eq:sieve-count}
+ \pi(X+Y)-\pi(X)\le z+\frac{Y}{G_z}+O(z^4).
+\end{equation}
+The error comes from the uniform $O(1)$ error in counting multiples of
+$\lcm(d,e)$.
+
+At least one quarter of the integers through any integer $n$ are
+squarefree: the nonsquarefree count is at most
+$n\sum_{k\ge2}k^{-2}<3n/4$.
+Partial summation gives
+$G_z\ge\sum_{\ell\le z}\mu(\ell)^2/\ell\gg\log z$ for large $z$.
+Take $z=\lfloor Y^{1/8}\rfloor$. The $z$ and $z^4$ terms are absorbed by
+$CY/\log Y$ for large $Y$, and the bounded remaining range is absorbed
+by increasing $C$. This proves \eqref{eq:interval-sieve}.
+\end{proof}
+
+\begin{proposition}\label{prop:LD-arithmetic}
+The prime-power measure in \eqref{eq:arith-source} satisfies
+\eqref{eq:LD}.
+\end{proposition}
+\begin{proof}
+For large $t$ and $e^{-t/2}\le h\le1$, put
+$X=e^t$, $Y=e^t(e^h-1)$. Then $\log Y\ge t/2$ and $Y\ll he^t$.
+Lemma~\ref{lem:sieve} gives
+\[
+ \sum_{e^t<p\le e^{t+h}}\frac{\log p}{p}\ll h.
+\]
+Prime powers of exponent at least two contribute
+$O((1+t)^2e^{-t/2})$: their count through $e^{t+1}$ is
+$O((1+t)e^{(t+1)/2})$, and each weight in the interval is at most
+$(t+1)e^{-t}$.
+
+For $0<h<e^{-t/2}$, enlarge the interval to logarithmic width $e^{-t/2}$.
+Its prime contribution is $O(e^{-t/2})$, absorbed by the same error
+majorant. A larger constant covers the bounded initial range of $t$.
+Thus one may take $q(t)=C(1+t)^2e^{-t/2}$.
+\end{proof}
+
+Propositions~\ref{prop:arithmetic-source} and~\ref{prop:LD-arithmetic}
+discharge every arithmetic hypothesis of Theorem~\ref{thm:energy}.
+The sieve is an upper-density estimate; it assumes no asymptotic prime
+count in short intervals.
+
+\section{The exact sparse Mertens certificate}\label{sec:certificate}
+
+Let $N\ge12$ be an integer. Write $\mathcal S_N$ for the squarefree
+positive integers at most $N$, and
+\[
+ \mathcal T_N=\{n\in\mathcal S_N:n\text{ odd},\ N/2<n\le N\},\qquad
+ \mathcal C_N=\{n\in\mathcal T_N:n\text{ composite}\}.
+\]
+The admissible labels are
+\[
+ \mathcal B_N=\{b:5\le b\le N/3,\ b\text{ squarefree},\ (b,6)=1\}.
+\]
+For any real coefficient vector $\alpha=(\alpha_b)_{b\in\mathcal B_N}$, set
+\begin{align}
+ (A\alpha)(n)&=\sum_{\substack{b\in\mathcal B_N\\b\mid n}}\alpha_b,
+        \qquad n\in\mathcal T_N,\label{eq:A}\\
+ (D\alpha)(m)&=\sum_{\substack{b\in\mathcal B_N\\N/2<bm\le N\\(b,m)=1}}
+                       \mu(b)\alpha_b,
+        \qquad m\text{ odd and squarefree}.\label{eq:D}
+\end{align}
+The second vector vanishes for $m>N/5$. The matrices are sparse incidence
+matrices of the same multiplication pairs, with the label sign retained
+in the cofactor block.
+
+\begin{proposition}[Exact finite identity]\label{prop:certificate}
+For every such $\alpha$,
+\begin{equation}\label{eq:finite-identity}
+ M(N)=\sum_{n\in\mathcal T_N}\mu(n)(1-(A\alpha)(n))
+       +\sum_{\substack{m\le N/5\\m\ \mathrm{odd,\ squarefree}}}
+                   \mu(m)(D\alpha)(m).
+\end{equation}
+Consequently
+\begin{equation}\label{eq:certificate}
+ |M(N)|\le \mathfrak B_N(\alpha):=
+   \pi(N)-\pi(N/2)+\norm{1-A\alpha}_{1,\mathcal C_N}
+                      +\norm{D\alpha}_1.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Pair $n=m$ and $n=2m$ for odd squarefree $m$ with $2m\le N$.
+Their M\"obius values cancel, so
+$M(N)=\sum_{n\in\mathcal T_N}\mu(n)$.
+Expanding $\sum_{n\in\mathcal T_N}\mu(n)(A\alpha)(n)$ and writing $n=bm$
+gives the second sum in \eqref{eq:finite-identity}, since
+$\mu(bm)=\mu(b)\mu(m)$ on its support.
+Take absolute values. No admissible label divides a prime in $(N/2,N]$,
+so each such prime contributes exactly one to the first residual norm.
+This yields \eqref{eq:certificate}.
+\end{proof}
+
+The target estimate is
+\begin{equation}\label{eq:target-six}
+ \norm{1-A\alpha}_{1,\mathcal C_N}+\norm{D\alpha}_1
+       \ll \frac{N}{\log N}.
+\end{equation}
+No normalization or parity-balance constraint on $\alpha$ is required
+by the exact identity.
+
+\section{Explicit weights and the cofactor reduction}\label{sec:weights}
+
+Put $L=\log N$. Retaining only admissible labels, choose
+\begin{equation}\label{eq:weights}
+ \alpha_p=\frac{(\log p)^2}{L^2},\qquad
+ \alpha_{pq}=\frac{2\log p\log q}{L^2}\quad(5\le p<q),\qquad
+ \alpha_b=0\ \text{otherwise}.
+\end{equation}
+These are the squarefree prime and semiprime terms in the classical second
+generalized von Mangoldt weights.
+
+\begin{lemma}[Coverage and coefficient mass]\label{lem:coverage}
+For the coefficients \eqref{eq:weights},
+\begin{equation}\label{eq:coverage}
+ \norm{1-A\alpha}_{1,\mathcal C_N}\ll N/L.
+\end{equation}
+If $\rho_b=\#\{n\in\mathcal S_N:b\mid n\}/|\mathcal S_N|$, then
+$\sum_b\rho_b|\alpha_b|\le1$.
+\end{lemma}
+\begin{proof}
+For $n\in\mathcal C_N$, let $\epsilon_n=\ind_{3\mid n}$. Expanding the square
+of the sum of logarithms of its prime factors at least five gives exactly
+\begin{equation}\label{eq:coverage-exact}
+ (A\alpha)(n)=\frac{(\log n-\epsilon_n\log3)^2}{L^2}
+ -\ind_{\substack{n=pq\\3\nmid n}}\frac{2\log p\log q}{L^2}.
+\end{equation}
+Every relevant prime or two-prime divisor is at most $N/3$ except the
+whole number $n=pq$ when $3\nmid n$; this is the subtracted term.
+The first term has deficit at most $2\log6/L$, since
+$N/2<n\le N$. Also, by Chebyshev and partial summation,
+\[
+ \sum_{\substack{p<q\\pq\le N}}2\log p\log q
+ \le2\sum_{p\le\sqrt N}\log p\,\vartheta(N/p)
+ \ll N\sum_{p\le\sqrt N}\frac{\log p}{p}\ll NL.
+\]
+This proves \eqref{eq:coverage}. For every squarefree $n\le N$, even or odd,
+the full retained divisor sum is nonnegative and at most
+$(\sum_{p\mid n,\ p\ge5}\log p)^2/L^2\le1$.
+Averaging that inequality over $\mathcal S_N$ proves the mass bound.
+\end{proof}
+
+For an integer $Q\ge1$ and real $x\ge1$, define
+\[
+ G_Q(x)=-\sum_{\substack{p\le x\\(p,Q)=1}}(\log p)^2
+     +2\sum_{\substack{p<q,\ pq\le x\\(pq,Q)=1}}\log p\log q,
+ \qquad G=G_1.
+\]
+For odd squarefree $m\ge3$, the cutoff $b\le N/3$ is automatic when
+$b\le N/m$. Hence
+\begin{equation}\label{eq:flux-G}
+ (D\alpha)(m)=\frac{G_{6m}(N/m)-G_{6m}(N/(2m))}{L^2}.
+\end{equation}
+The row $m=1$ is zero because all labels are at most $N/3$.
+
+\begin{lemma}[Coprimality removal]\label{lem:coprime}
+The aggregate error in replacing both occurrences of $G_{6m}$ by $G$
+in \eqref{eq:flux-G}, before division by $L^2$, is $O(NL)$.
+\end{lemma}
+\begin{proof}
+The union bound and Chebyshev give
+\[
+ |G(x)-G_Q(x)|
+ \le\sum_{\substack{p\mid Q\\p\le x}}(\log p)^2
+      +2\sum_{p\mid Q}\log p\,\vartheta(x/p).
+\]
+Enlarge the sum over $m$ to all integers $3\le m\le N/5$.
+For $p=2,3$ the total is $O(NL)$. The terms with $p\mid m$ in the second
+sum are bounded by
+\[
+ CN\sum_{m\le N/5}\frac1m\sum_{p\mid m}\frac{\log p}{p}
+ \ll NL\sum_p\frac{\log p}{p^2}\ll NL.
+\]
+For the first sum, $p\mid m$ and $p\le N/m$ imply $p^2\le N$, and
+there are at most $N/p^2$ eligible $m$. Their total is
+$O(N\sum_p(\log p)^2/p^2)=O(N)$. Both series converge by comparison
+with sums over the integers. The same estimates apply at $N/(2m)$.
+\end{proof}
+
+\begin{lemma}[The signed prime/semiprime sum]\label{lem:G}
+For $x\ge2$,
+\begin{equation}\label{eq:G-source}
+ G(x)=-2x\log x\,f(\log x)+O(x).
+\end{equation}
+\end{lemma}
+\begin{proof}
+Replacing prime sums by prime-power sums gives
+\[
+ G(x)=\sum_{n\le x}\bigl((\Lambda*_D\Lambda)(n)-\Lambda(n)\log n\bigr)+O(x).
+\]
+For completeness, the convolution terms with at least one proper prime
+power cost at most
+$2\sum_{p^a\le x,\ a\ge2}\log p\,\psi(x/p^a)
+ \ll x\sum_{p,a\ge2}\log p/p^a=O(x)$.
+The prime diagonal and the proper-power terms in $\Lambda(n)\log n$
+also cost $O(x)$; the crude bound $O(\sqrt x\,\log^3(2x))=O(x)$
+suffices. Selberg's formula and partial summation therefore give
+\[
+ G(x)=2x\log x-2\psi(x)\log x+O(x),
+\]
+which is \eqref{eq:G-source}.
+\end{proof}
+
+\section{Sampling, the tail estimate, and the arithmetic conclusions}
+\label{sec:transfer}
+
+\begin{lemma}[Sampling with a logarithmic weight]\label{lem:sampling}
+For real $X\ge4$, put $L_X=\log X$, $J_X=\lfloor X/2\rfloor$, and
+\[
+ \Phi_X=\sum_{m\le J_X}\frac{\log(X/m)}m\,|f(\log(X/m))|.
+\]
+Then
+\begin{equation}\label{eq:sampling}
+ \Phi_X\le\int_0^{L_X}t|f(t)|\dd t+O(L_X).
+\end{equation}
+\end{lemma}
+\begin{proof}
+Set $g_X(u)=\psi(X/u)/X-1/u=f(\log(X/u))/u$.
+For $m\le u\le m+1$,
+\[
+ |g_X(m)-g_X(u)|
+ \le\frac{\psi(X/m)-\psi(X/(m+1))}{X}+\frac1{m(m+1)}.
+\]
+Multiply by $\log(X/m)$ and integrate over this unit interval.
+The first errors telescope at cost at most $L_X\psi(X)/X=O(L_X)$;
+the second errors also cost $O(L_X)$.
+Replacing $\log(X/m)$ under the integral by $\log(X/u)$ costs $O(1)$,
+since $|g_X(u)|\ll1/u$ and $\log(u/m)\le1/m$.
+The substitution $t=\log(X/u)$ gives an integral over a subinterval of
+$[0,L_X]$ because $J_X+1\le X$. Enlarging that interval proves the claim.
+\end{proof}
+
+The arithmetic instance of Theorem~\ref{thm:energy} and Cauchy--Schwarz give
+\begin{equation}\label{eq:Phi-bound}
+ \Phi_X\le\sqrt{L_X E(L_X)}+O(L_X)\ll L_X.
+\end{equation}
+In particular there is no additional $\log\log X$ loss in this transfer.
+
+\begin{theorem}[Closure of the sparse certificate]\label{thm:certificate}
+The explicit coefficients \eqref{eq:weights} satisfy \eqref{eq:target-six}
+uniformly for integers $N\ge12$. Consequently $|M(N)|\ll N/\log N$.
+\end{theorem}
+\begin{proof}
+Lemma~\ref{lem:G} gives, for $3\le m\le N/5$,
+\begin{align*}
+ |G(N/m)-G(N/(2m))|
+ \le\frac Nm\bigl(&2\log(N/m)|f(\log(N/m))|\\
+                 &+\log(N/(2m))|f(\log(N/(2m)))|+C\bigr).
+\end{align*}
+Summing and using \eqref{eq:Phi-bound}, once with $X=N$ and once with
+$X=N/2$, yields
+\begin{equation}\label{eq:cofactor-tail}
+ \sum_{\substack{3\le m\le N/5\\m\ \mathrm{odd,\ squarefree}}}
+       |G(N/m)-G(N/(2m))|\ll N\log N.
+\end{equation}
+The $O(N/m)$ errors sum to $O(N\log N)$ as well.
+Now \eqref{eq:flux-G} and Lemma~\ref{lem:coprime}, after division by $L^2$,
+give $\norm{D\alpha}_1\ll N/L$. Lemma~\ref{lem:coverage} gives the other
+term in \eqref{eq:target-six}.
+Finally apply \eqref{eq:certificate} and $\pi(N)\ll N/\log N$.
+\end{proof}
+
+\begin{corollary}[A direct quantitative PNT]\label{cor:PNT}
+For $x\ge2$,
+$\psi(x)=x+O(x/(\log x)^{1/3})$.
+\end{corollary}
+\begin{proof}
+The source equation and \eqref{eq:LD} imply
+$|f(t+h)-f(t)|\le C_0h+q(t)$ for $0<h\le1$.
+Increase $C_0$ so that $|f(t)|/(4C_0)\le1$.
+Write $A=|f(t)|$. If $A\ge4q(t)$, then $|f(t+h)|\ge A/2$ for
+$0\le h\le h_0:=A/(4C_0)$. Hence, for $t\ge1$,
+\[
+ E(t+1)\ge\int_t^{t+h_0}u^2|f(u)|^2\dd u
+           \ge\frac{t^2A^3}{16C_0}.
+\]
+The energy bound gives $A\ll t^{-1/3}$. If $A<4q(t)$, the same conclusion
+follows from the exponential majorant of $q$.
+Putting $t=\log x$ proves the corollary, including jump locations under
+the right-continuous convention.
+\end{proof}
+
+\begin{remark}[The certificate's floor]\label{rem:floor}
+For every admissible coefficient vector,
+$\mathfrak B_N(\alpha)\ge\pi(N)-\pi(N/2)$.
+The PNT just proved, followed by partial summation, implies
+$\pi(N)-\pi(N/2)\sim N/(2\log N)$. Thus the absolute-value certificate
+itself cannot give $o(N/\log N)$, even with better control of its other
+terms. This is a limitation of the certificate, not a lower bound for
+$|M(N)|$. A stronger rate requires retaining further signed cancellation
+or changing the final certificate.
+\end{remark}
+
+\section{Finite eigenstructure, singular vectors, and scope}\label{sec:finite}
+
+This section records the finite linear-algebra formulation. Its identities
+are exact, but the analytic theorem above should not be read as proving
+every natural finite inverse estimate.
+
+\subsection{Similarity to a diagonal operator}
+Allow a real endpoint $N\ge2$ and put $J=\lfloor N/2\rfloor$,
+$t_m=\log(N/m)$. On vectors indexed by $1\le m\le J$, define
+\begin{align}
+ (S_Nr)_m&=t_mr_m+
+       \sum_{\substack{k\ge2\\mk\le J}}\frac{\Lambda(k)}k\,r_{mk},
+       \label{eq:finite-S}\\
+ (Z_Nv)_m&=\sum_{mk\le J}\frac{v_{mk}}k,\qquad
+ (Z_N^{-1}v)_m=\sum_{mk\le J}\frac{\mu(k)}k\,v_{mk},\qquad
+ Q_N=\diag(t_m).\label{eq:finite-Z}
+\end{align}
+Finite divisor inversion gives the inverse in \eqref{eq:finite-Z}, and
+\begin{equation}\label{eq:similarity}
+ S_N=Z_N^{-1}Q_NZ_N.
+\end{equation}
+For instance the coefficient of $v_{mk}/k$ in
+$Q_NZ_N-Z_NQ_N$ is $\log k$; the identity
+$\sum_{d\mid k}\Lambda(d)=\log k$ proves $Z_NS_N=Q_NZ_N$.
+
+Thus the eigenvalues are the distinct positive numbers $t_m\ge\log2$.
+Right eigenvectors are $Z_N^{-1}e_m$ and left eigenvectors are
+$e_m^{\mathsf T}Z_N$, with their natural biorthogonal normalization.
+This exact eigenstructure does not control the inverse norm in a
+scale-independent way: the similarity is not asserted to be uniformly
+well-conditioned.
+
+For the actual vector
+$r_m=f(\log(N/m))=\psi(N/m)/(N/m)-1$, the elementary arithmetic inputs give
+\begin{equation}\label{eq:finite-forcing}
+ \norm{S_Nr}_\infty\ll1.
+\end{equation}
+This follows from \eqref{eq:R} by omitting $k>N/(2m)$, where
+$f(\log(N/(mk)))=-1$. The omitted harmonic prime-power sum is $O(1)$
+on a multiplicative interval of ratio two. The actual vector also satisfies
+\begin{equation}\label{eq:counting-constraints}
+ 0\le1+r_m\le C_1,\qquad
+ \frac{1+r_m}{m}\ge\frac{1+r_{m+1}}{m+1}\quad(m<J),
+\end{equation}
+because $(1+r_m)/m=\psi(N/m)/N$.
+
+\subsection{The exact SVD expression and an obstruction}
+Let $\mathsf W=\diag(1/m)$ and
+\[
+ \mathsf T_N=\mathsf W^{1/2}S_NQ_N^{-1}\mathsf W^{-1/2}.
+\]
+If $\mathsf T_N=U\Sigma V^*$ has singular values $s_j>0$ and left
+singular vectors $u_j$, and $y=\mathsf W^{1/2}S_Nr$, then
+\begin{equation}\label{eq:svd}
+ \sum_{m\le J}\frac{t_m^2|r_m|^2}{m}
+   =\sum_{j=1}^J\frac{|\langle u_j,y\rangle|^2}{s_j^2}.
+\end{equation}
+Indeed $\mathsf T_N(\mathsf W^{1/2}Q_Nr)=y$.
+Equation~\eqref{eq:svd} identifies the required interaction between small
+singular values and the distinguished source. It supplies no lower bound
+on every singular value.
+
+There is a concrete obstruction to an unrestricted source estimate.
+Let $\lambda(n)=(-1)^{\Omega(n)}$ be the Liouville function and take
+$r_m=\lambda(m)$. Complete multiplicativity and
+Lemma~\ref{lem:elementary} give, for $y\ge1$,
+\[
+ \sum_{k\le y}\frac{\Lambda(k)\lambda(k)}k
+ =-\sum_{k\le y}\frac{\Lambda(k)}k
+       +2\sum_{p^{2a}\le y}\frac{\log p}{p^{2a}}
+ =-\log y+O(1).
+\]
+Consequently $\norm{S_Nr}_\infty=O(1)$, whereas
+\begin{align}
+ \sum_{m\le J}\frac{t_m|r_m|}{m}
+ &=\tfrac12(\log N)^2+O(\log N),\label{eq:liouville-obstruction}\\
+ \sum_{m\le J}\frac{t_m^2|r_m|^2}{m}
+ &=\tfrac13(\log N)^3+O((\log N)^2).\notag
+\end{align}
+Integral comparison proves the two sums.
+Thus bounded forcing alone cannot yield the desired source bounds.
+The Liouville vector meets the amplitude constraint but, for large $N$,
+violates the monotonicity in \eqref{eq:counting-constraints}.
+
+A sufficient spectral-tail estimate would be, for some fixed $\delta>0$,
+\begin{equation}\label{eq:svd-tail-open}
+ \sum_{s_j\le s}|\langle u_j,y\rangle|^2
+ \le C(\log N)s^{2+\delta},\qquad0<s\le1.
+\end{equation}
+Together with $\norm y_2^2=O(\log N)$, dyadic summation in
+\eqref{eq:svd} would give a discrete weighted energy of order $\log N$.
+The exponent $2$ without a further summable factor does not suffice for
+that inference. Estimate~\eqref{eq:svd-tail-open} is a sufficient target,
+not a theorem established here.
+
+\subsection{The stronger constrained inverse remains open}
+The stronger statement would be that every real vector satisfying
+\eqref{eq:counting-constraints} and
+$\norm{S_Nr}_\infty\le C_0$ obeys
+\begin{equation}\label{eq:constrained-open}
+ \sum_{m\le J}\frac{t_m|r_m|}{m}\le C(C_0,C_1)\log N.
+\end{equation}
+Theorem~\ref{thm:energy} and the sampling argument prove the required bound
+for the actual arithmetic source. They do not prove
+\eqref{eq:constrained-open} for all artificially constructed vectors:
+the analytic proof also uses the common positive measure and
+\eqref{eq:LD}.
+
+There is a finite, directly verifiable dual sufficient condition for
+\eqref{eq:constrained-open}. Define
+$(\mathcal K r)_m=r_m/m-r_{m+1}/(m+1)$ and $d_m=1/[m(m+1)]$ for $m<J$.
+For every sign vector $\epsilon\in\{-1,1\}^J$ put $c_m=\epsilon_mt_m/m$.
+It would suffice to construct $a\in\R^J$ and nonnegative vectors $u,v,z$
+with $z\in\R^{J-1}$ such that
+\begin{align}
+ c&=S_N^{\mathsf T}a+u-v-\mathcal K^{\mathsf T}z,\label{eq:dual-open}\\
+ C_0\norm a_1+(C_1-1)\sum_m u_m+\sum_m v_m+\sum_m z_md_m
+    &\le C\log N.\notag
+\end{align}
+Pair the equality with $r$, use $\mathcal K r\ge-d$, $r\le C_1-1$, and
+$-r\le1$, and then maximize over $\epsilon$.
+This implication is just a finite inequality; no separation theorem is
+needed. A uniform construction of these multipliers has not been supplied.
+
+\section{Exact recursions and what they do not yet give}\label{sec:recursion}
+
+\subsection{Restriction to divisibility rays}
+For an integer $d\ge2$, put $X=N/d$ and $r^{(d)}_k=r_{dk}$ for
+$k\le\lfloor X/2\rfloor$. From \eqref{eq:finite-S},
+\begin{equation}\label{eq:ray}
+ (S_Xr^{(d)})_k=(S_Nr)_{dk}.
+\end{equation}
+The amplitude and monotonicity constraints are preserved; the latter
+follows by restricting the nonincreasing sequence $(1+r_m)/m$.
+This is exact recursive closure, but it provides no contraction factor.
+
+\subsection{Prime insertion in the coefficient family}
+For finitely supported coefficients on squarefree labels define
+\[
+ F_\alpha(X,m)=
+ \sum_{\substack{b:\,bm\le X\\(b,m)=1}}\mu(b)\alpha_b,\qquad
+ H_\alpha(X,m)=F_\alpha(X,m)-F_\alpha(X,2m)
+\]
+when the labels and $m$ are odd.
+Let $p$ be a fresh prime and split a new coefficient family into
+$p$-free branches $\alpha_0(b)$ at label $b$ and $\alpha_1(b)$ at label
+$pb$. The child branch may contain $b=1$. Direct divisor splitting gives
+\begin{align}
+ A_{\rm new}(n)&=A_0(n)+\ind_{p\mid n}A_1(n/p),\label{eq:insert-A}\\
+ F_{\rm new}(X,m)&=F_0(X,m)-\ind_{p\nmid m}F_1(X/p,m).\label{eq:insert-F}
+\end{align}
+For odd $p$, odd labels, and odd $m$,
+\[
+ H_{\rm new}(X,m)=H_0(X,m)-\ind_{p\nmid m}H_1(X/p,m).
+\]
+The minus sign is $\mu(pb)=-\mu(b)$; the exclusion $p\nmid m$ is necessary.
+The endpoint $X/p$ is real. Replacing $X$ by $\lfloor X\rfloor$ inside
+integer inequalities is harmless; dropping cofactor exclusions or
+renormalizing child masses is not.
+
+\subsection{Signed source folding}
+Let $g$ be supported on squarefree integers coprime to a fixed excluded
+prime set, and let $p$ be a new prime. For $p\nmid r$ define
+$(T_pg)(r)=g(r)-g(pr)$, with $g$ zero beyond its support. Pairing $r$ and
+$pr$ gives
+\begin{align}
+ \sum_n\mu(n)g(n)&=\sum_{p\nmid r}\mu(r)(T_pg)(r),\label{eq:fold}\\
+ \norm{T_pg}_1&=\norm g_1-
+ 2\sum_{\substack{p\nmid r\\g(r)g(pr)>0}}
+                   \min(|g(r)|,|g(pr)|).\label{eq:fold-gain}
+\end{align}
+The sums also retain the previously excluded primes.
+Equation~\eqref{eq:fold-gain} proves nonexpansion in $\ell^1$.
+Strict contraction requires a lower bound on the displayed same-sign
+overlap. It does not follow from the singular values of a two-entry
+difference row.
+
+The successful analytic argument does use a scale evolution
+$\sigma\mapsto\sigma/2$, but it has not established a fixed-dyadic
+contraction for these finite recursions. For a future rate improvement,
+the signed prime-boundary contribution must remain coupled to composite
+or cofactor sources before the final absolute values are taken.
+No such stronger recursive certificate is claimed here.
+
+\section{Relation to the literature}\label{sec:literature}
+
+The literature comparison below was made in October 2026. Sources
+marked \emph{read} were consulted in the original or in a scan. The
+arithmetic bounds are classical, and the pointwise form is Wirsing's
+(Section~\ref{sec:lit-wirsing}). What we compare is the method:
+Section~\ref{sec:lit-mechanisms} lists the known ways of getting a
+remainder from Selberg's formula and sets ours against them.
+
+\subsection{Selberg's formula and the elementary remainder problem}
+
+Selberg's symmetry formula \cite{selberg} is the input to the
+Erd\H{o}s--Selberg proofs of the prime number theorem. As reported in \cite{wirsing1}, Selberg remarked that
+his method, carried out carefully, also yields a remainder
+$\psi(x)=x+O(x/(\log x)^{\alpha})$ for some $\alpha>0$. The first explicit
+exponents, as listed in Wirsing's introduction \cite{wirsing1}, were
+$\alpha=1/200$ (van der Corput), $\alpha=1/10$ (Kuhn \cite{kuhn}), and
+$\alpha=1/6$ (Breusch \cite{breusch}, by a method starting from a formula
+similar to Selberg's). Wirsing's first paper \cite{wirsing1} gave
+$\alpha=3/4$ (read). Bombieri \cite{bombieri} and Wirsing's second paper
+\cite{wirsing2} obtained every $\alpha$ (both read).
+Later elementary work reached
+$x\exp(-c(\log x)^{a})$: $a=1/7-\varepsilon$ by Diamond and Steinig, and
+$a=1/6-\varepsilon$ by Lavrik--Sobirov and Sokolovski\u\i; these are cited
+here from Diamond's survey \cite{diamond-survey} (read).
+
+Diamond \cite[Section~8]{diamond-survey} explains the modest early exponents as
+a limitation of Selberg's formula itself. Every monotone function of the
+form $x/\log x+x/\log^2x+O(x/\log^cx)$ with $c>2$ satisfies the
+generalized Selberg formula with remainder $O(x)$. Hence that formula
+cannot detect a $\psi$-error below the scale $x/\log x$. Bombieri
+overcame this with higher-weight analogues of the formula. Wirsing
+instead fed each new error estimate back into an improved Selberg
+formula.
+
+\subsection{Wirsing's estimate}\label{sec:lit-wirsing}
+
+Write $\rho(\xi)=\sum_{n\le e^\xi}(1-\Lambda(n))/n-2C$, with $C$ Euler's
+constant. Wirsing \cite[Sections~2 and~4]{wirsing1} uses arithmetic
+convolution identities, harmonic and divisor-sum estimates, and positivity
+of $\Lambda$ to supply the two relations
+\begin{equation}\label{eq:wirsing}
+ \xi\rho(\xi)=\int_0^\xi\rho(\xi-\eta)\dd\rho(\eta)+O(1),\qquad
+ |\rho(\xi)-\rho(\eta)|\le\xi-\eta+O(1/\eta)\quad(\eta\le\xi).
+\end{equation}
+The first is a Selberg-type relation for this arithmetic integrated
+variable. The second is a two-sided fluctuation bound. He also notes that
+$\rho(\xi)=O(\xi^{-\alpha})$ gives $\psi(x)=x+O(x/\log^\alpha x)$ with the
+same $\alpha$; this follows by partial summation.
+
+In \cite[Section~3]{wirsing1} Wirsing states that \eqref{eq:wirsing} implies
+$\rho(\xi)=O(1/\xi)$, ``das bestm\"ogliche Ergebnis bei diesen
+Voraussetzungen'' (the best possible result under these hypotheses).
+In arithmetic terms this is the pointwise bound
+\[
+ \psi(x)=x+O\!\left(\frac{x}{\log x}\right),
+\]
+with the arithmetic input supplied in that paper and no sieve. It implies
+\eqref{eq:main-energy} and is strictly stronger. This does not by itself
+identify an equivalent input for an arbitrary pair $(f,\nu)$.
+
+The distinction is visible in the input calculation
+\cite[Section~4, pp.~207--208]{wirsing1}. Writing $r(x)=\rho(\log x)$,
+Wirsing uses
+\[
+ s(x):=\sum_{m\le x}\frac{r(x/m)}m
+ =\sum_{k\le x}\frac{\tau(k)-\log k-2C}{k}
+ =s(\infty)+O\!\left(\frac{\log x}{\sqrt x}\right).
+\]
+M\"obius inversion supplies a bounded remainder in the equation for $r$;
+subtracting the bounded harmonic convolution supplies the first relation
+in \eqref{eq:wirsing}. These arithmetic identities are not among the base
+assumptions of Theorem~\ref{thm:weak-L2}.
+
+In \cite[Section~5]{wirsing2} the statement is made abstract, as Satz~2. Assume
+\begin{itemize}
+ \item $\int_0^\xi|\dd\rho|\ll\xi$;
+ \item $|\rho(\xi)-\rho(\eta)|\le\gamma(\xi-\eta)+O(\eta^{-\beta})$ with
+       $\gamma<\sqrt2$;
+ \item $\rho(\xi)=\xi^{-1}\int_0^\xi\rho(\xi-\eta)\dd\rho(\eta)
+       +O(\xi^{-\beta})$ with $\beta>-1$.
+\end{itemize}
+Then $\rho(\xi)\ll\xi^{-\beta}$. The example $\rho(\xi)=2\sin\xi$ shows that
+$\gamma\le2$ is not enough.
+
+Wirsing gives the proofs of the abstract theorems only in outline (``N\"aher
+wollen wir auf die Beweise der beiden S\"atze nicht eingehen''). For the
+arithmetic iteration he proves in full only the gain to some $\alpha'>\beta-1$,
+which is all the iteration needs, and he indicates how to reach
+$\alpha=\beta$ by running the induction on the whole system. His
+arithmetic result $\psi(x)=x+O(x/\log^Ax)$ for every $A$ is proved in full.
+It already gives $E(T)=O(1)$.
+
+A note added in proof to \cite{wirsing2} replaces one of his lemmas by
+Selberg's sieve bound for primes in short intervals. So the use of a sieve
+upper density, as in Section~\ref{sec:sieve}, has a precedent; its role
+there differs from its role here (Section~\ref{sec:lit-mechanisms}).
+
+\begin{remark}[Local density is not necessary]\label{rem:ld-not-needed}
+Lemma~\ref{lem:weak-density} derives
+$\nu((t,t+h])\le2h+O_A(1/t)$ for bounded $h$ from the base hypotheses.
+This interval bound alone does not supply Wirsing's self-convolution
+equation. Theorem~\ref{thm:weak-L2} supplies the additional estimate
+$f\in L^2(0,\infty)$, and Corollary~\ref{cor:wirsing-bootstrap} then
+applies Satz~2 to $g=-f$. This proves $E(T)=O(T)$ for each admissible
+pair without \eqref{eq:LD}. The original proof with \eqref{eq:LD}
+remains a direct route with constants controlled by its hypothesis bounds.
+\end{remark}
+
+\begin{remark}[The primitive substitution does not give the bridge]
+\label{rem:primitive-obstruction}
+In the arithmetic case Wirsing's variable is, up to a constant,
+$\rho(t)=t-B(t)+C_0$. For a general pair this identification fails. This need not satisfy his
+self-convolution equation, even under \eqref{eq:LD}.
+For a fully specified example, put $\varepsilon=1/4$ and
+\[
+ f(t)=-e^{-t}+\varepsilon\frac{\sin\log(1+t)}{1+t},\qquad
+ h=f+f',\qquad \nu=(1+h)\dd t.
+\]
+Here $|h|\le3\varepsilon$, so the density is positive and bounded, and
+\[
+ F(t)=-1+e^{-t}+\varepsilon(1-\cos\log(1+t)),\qquad
+ B(t)=t+\varepsilon\left(1-\cos\log(1+t)
+                   +\frac{\sin\log(1+t)}{1+t}\right).
+\]
+Both $f$ and $h$ are $O((1+t)^{-1})$. Hence
+$f*h=O(\log(2+t)/(1+t))$ and $R=tf+F+f*h=O(1)$.
+All the abstract hypotheses hold. But
+\[
+ \rho(t)=C_0-\varepsilon+\varepsilon\cos\log(1+t)
+                  -\varepsilon\frac{\sin\log(1+t)}{1+t}
+\]
+is bounded, has total variation $O(\log(2+t))$, and has distinct
+subsequential limits $C_0$ and $C_0-2\varepsilon$. Therefore
+$\rho*d\rho=O(\log(2+t))$, whereas
+$t\rho-\rho*d\rho=O(1)$ would force $\rho(t)\to0$.
+No choice of $C_0$ gives that equation. This disproves the proposed
+identification, not the pointwise conclusion for $f$ or the replacement
+bridge in Section~\ref{sec:wirsing-bridge}.
+\end{remark}
+
+\begin{remark}[Sharpness of the energy bound]\label{rem:energy-sharp}
+Under the hypotheses of Theorem~\ref{thm:energy}, $E(T)\asymp T$ can occur.
+Take, on the entire half-line,
+\[
+ f(t)=-e^{-t}+\frac{\sin t}{4(1+t)},\qquad
+ h=f+f',\qquad \nu=(1+h)\dd t.
+\]
+Then $f(0)=-1$, $|h|\le3/4$, and the density is positive and bounded.
+The primitive $F$ is bounded by Dirichlet's test, and the source equation
+gives $B=t+f+1+F=t+O(1)$. Since $f,h=O((1+t)^{-1})$,
+\[
+ |(f*h)(t)|\ll\int_0^t\frac{\dd u}{(1+u)(1+t-u)}
+ =\frac{2\log(1+t)}{t+2}.
+\]
+Thus $R=tf+F+f*h=O(1)$ and \eqref{eq:LD} holds with $q=0$.
+Finally,
+\[
+ E(T)=\frac1{16}\int_0^T\frac{t^2\sin^2t}{(1+t)^2}\dd t+O(1)
+     =\frac{T}{32}+O(\log(2+T)).
+\]
+This proves sharpness in the abstract class, including the stronger
+density hypothesis. It does not assert sharpness for the prime-power
+measure, which has additional arithmetic structure.
+\end{remark}
+
+\subsection{Mechanisms compared}\label{sec:lit-mechanisms}
+
+The sources read use six distinct mechanisms to extract information from
+Selberg's relation, or to exclude zeros on the line.
+\begin{enumerate}
+ \item[(K)] \emph{Sup-norm iteration in the real variable.} This is the
+       route of Selberg and Erd\H{o}s, and of Kuhn \cite{kuhn} (read). An
+       upper bound $|R(\eta)|\le K\eta$ on large intervals is improved by
+       inserting it into the Selberg inequality. Each step loses a constant
+       factor, which produces the small early exponents.
+ \item[(I)] \emph{Isoperimetric estimates.} In Wirsing~I \cite{wirsing1}
+       (read), and in Bang's proof described by Diamond, the Selberg
+       integral is read as an area enclosed by the curve
+       $(\sigma(t),\sigma(\xi-t))$, and an inequality between area and
+       non-Euclidean perimeter bounds it.
+ \item[(W)] \emph{Mean-square self-convolution.} Hilfssatz~1 of
+       Wirsing~II \cite{wirsing2} (read) states the following. If
+       $\limsup x^{-1}\int_0^x f^2=F<\infty$,
+       $\limsup x^{-1}\int_0^x g^2=G<\infty$, and
+       $h=x^{-1}(f*g)$ has vanishing Ces\`aro mean, then
+       $\limsup x^{-1}\int_0^x h^2\le FG/2$. The constant $\tfrac12$ is
+       sharp, with $\sin x$ extremal. Applied to repeated self-convolutions,
+       this contracts normalized mean squares of derivatives of
+       interpolants and drives Wirsing's iteration. This is not a bound
+       on $\int_0^\infty|f|^2$ for our coupled source. Its application in
+       Sections~3--4 of that paper already uses the self-convolution
+       equation and fluctuation bound supplied by arithmetic identities.
+       Bombieri's function-field note \cite{bombieri-ff} (read) closes the
+       qualitative argument the same way: with $A=\limsup m^{-1}\sum r_k^2$,
+       the lemma gives $A\le A^2/2$, and $A\le1$ then forces $A=0$.
+ \item[(B)] \emph{Higher-weight Selberg formulas with sign-change
+       reduction.} Bombieri's memoir \cite{bombieri} (read) has three
+       steps. First, Amitsur's symbolic calculus, with $\log$ acting as a
+       derivation, generates classes of generalized Selberg formulas of
+       arbitrary weight, together with a generalized ``fundamental
+       inequality''. Second, Wright's substitution $x=e^\eta$ gives
+       associated functions $V_k(\eta;f)$ with
+       $V_k'=V_{k-1}-V_k$. Third, the main step (his Section~VII) is a
+       real-variable integral reduction after Selberg and Wright: when
+       $V_0$ changes sign in an interval of length $\lambda$, its Lipschitz
+       bound makes $\int|V_0|$ smaller than the majorant by a fixed factor
+       $\chi<1$. This is iterated through the higher-weight formulas, with
+       Beta-function bookkeeping for the convolutions. The Laplace transform
+       appears only in the proof of the convolution identity
+       $V_k(f*g)=\int V_mV_n$ (his Theorem~5.3), through the convolution and
+       uniqueness theorems on the real axis. The memoir contains no
+       frequency analysis, no doubled-frequency positivity, and no flow in
+       $\sigma$.
+ \item[(Z)] \emph{Nonvanishing on the line.} The 3-4-1 inequality
+       $3+4\cos\theta+\cos2\theta=2(1+\cos\theta)^2\ge0$ shows that a zero
+       at $1+it_0$ would force a pole at $1+2it_0$; this uses analyticity
+       of $\zeta$ there. In the argument after Wiener and Geller
+       \cite{wiener-geller}, presented by Diamond
+       \cite[Section~7]{diamond-survey} (read), a zero makes the twisted sum
+       tend to $-1$, and a short-interval upper bound rules out the
+       resulting concentration of primes near bad phases. These are
+       qualitative boundary arguments. The 3-4-1 argument already couples
+       a frequency to its double; that coupling alone is not a new device.
+ \item[(T)] \emph{Asymptotic spectral characters.} Tao \cite{tao} (read in
+       summary) excludes the parity obstruction by an $|\cos|$-averaging
+       gap in an asymptotic Banach algebra. It is qualitative.
+\end{enumerate}
+
+The mechanism of Sections~\ref{sec:scale}--\ref{sec:closure} has the
+following components.
+\begin{enumerate}
+ \item[(M1)] \emph{Selberg's relation as a flow.} Along a horizontal ray
+       $\sigma=ae^{-x}$, the window-normalized transform
+       $\beta=\sigma b(\sigma+i\xi)$ satisfies the exact Riccati equation
+       $\beta'=-\beta-\beta^2+e$ (Section~\ref{sec:scale}). Its defect is
+       $O(\sigma g(\xi))$. The algebraic identity behind it,
+       $\Lambda\log+\Lambda*_D\Lambda=\mu*_D\log^2$ (equivalently
+       $\zeta''/\zeta=(\zeta'/\zeta)'+(\zeta'/\zeta)^2$), is classical.
+       Its use as a dynamical system in $\sigma$, with stable fixed point
+       $0$, unstable fixed point $-1$, and the frequency-dependent window
+       $\sigma\le c/g(\xi)$ on which the defect is small, was not found in
+       the sources read.
+ \item[(M2)] \emph{Quantitative doubled-frequency exclusion.} (Z) closes the
+       3-4-1 argument with analyticity at $1+2it_0$. Section~\ref{sec:scale}
+       closes it instead with the \emph{same Riccati flow at frequency
+       $2\xi$}. If $\beta(\xi)$ stays near $-1$ for a time $\log 2$, the
+       variance inequality forces $\Rea\beta(2\xi)\ge4/5$, and the flow at
+       $2\xi$ then decreases $\Rea\beta(2\xi)$ at a rate greater than $1$,
+       which is impossible. The result $|1+\beta|\ge1/100$ holds uniformly
+       in $\xi$ and in the window. No continuation and no information about
+       a zeta function at $1+2it_0$ is used. The sources read have no
+       analogue of this finite-time, uniform exclusion.
+ \item[(M3)] \emph{Exact linearization.} The M\"obius substitution
+       $W=\beta/(1+\beta)$ sends the unstable fixed point to infinity and
+       turns the Riccati flow into $W'+W=e/(1+\beta)^2$ exactly. This
+       yields $\int_0^{a(\xi)}|b(u+i\xi)|\dd u\le C$ uniformly in $\xi$, and
+       hence a bounded variation-of-constants resolvent for the actual
+       source (Section~\ref{sec:resolvent}). The fractional-linear
+       substitution itself is classical. Mechanism (W) contracts
+       normalized mean squares of iterated convolutions. (M3) inverts the
+       Selberg operator frequency by frequency, using the actual measure
+       as its own multiplier. This combined quantitative use was not
+       found in the inspected sources.
+ \item[(M4)] \emph{Local density as a Fourier-tail and start-line budget.}
+       In (Z), and in Wirsing's note added in proof, short-interval bounds
+       limit concentration of primes. Here the bound \eqref{eq:LD} instead
+       controls weighted translation moduli. Through Poisson averaging with
+       frequency-dependent widths, it gives an $L^2$ budget on the line
+       $\sigma=a(\xi)$ (Sections~\ref{sec:tails} and~\ref{sec:start}).
+       Section~\ref{sec:wirsing-bridge} uses the weaker interval bound
+       derived from positivity to obtain an unweighted $L^2$ estimate.
+       This yields the energy conclusion through Wirsing's theorem.
+       The direct weighted-tail proof still uses \eqref{eq:LD}; the new
+       route does not assert that the same weighted estimates hold with
+       an arbitrary $O(1/t)$ density error.
+ \item[(M5)] \emph{$L^2$ charging of the forcing.} The Selberg remainder
+       $R$ enters only through $\int|P|^2$, by Tonelli
+       (Section~\ref{sec:closure}); a pointwise charge would lose a
+       logarithm. This is a standard device.
+\end{enumerate}
+
+The candidate proof contribution is the combination of (M1)--(M3) with
+the tail and source estimates: a quantitative, frequency-resolved,
+continuation-free treatment of Selberg's relation in the half-plane of
+absolute convergence. The comparison distinguishes this combination
+from the inspected real-variable and qualitative boundary arguments;
+it does not establish historical priority for the combination or its
+individual ingredients.
+
+\emph{Scope of the search.} The prime number theorem literature is too large
+to search exhaustively. The search covered Diamond's survey of elementary
+methods \cite{diamond-survey}, which catalogs the Tauberian routes from
+Selberg's formula, together with the primary sources for each distinct
+remainder mechanism compared here (Kuhn, Wirsing~I and~II, Bombieri).
+We inspected all of Wirsing~I, pp.~205--214, and
+Wirsing~II, Sections~1--5, pp.~1--15, and found no matched supply of global
+$L^2$ control under precisely our base coupled-source assumptions.
+This is a bounded source finding, not a proof that no classical derivation
+exists. For the Bombieri memoir we read pages 1--6, 21--34, and 39--46
+of the scan we used, not every page. The search did not cover
+every derivative paper. Ingham's review \cite{ingham} was not consulted;
+Wright \cite{wright} and Amitsur \cite{amitsur} are known to us through
+Bombieri's use of them in (B). No conclusion about their unexamined
+contents is drawn.
+
+\subsection{Other related work}
+
+\begin{itemize}
+ \item Tao \cite{tao} (read in summary) uses Selberg's formula and
+       positivity of the log-prime measure in an asymptotic Banach-algebra
+       proof of the prime number theorem. It is qualitative and gives no
+       rate.
+ \item Saidak \cite{saidak} (read) proves the reverse implication: a PNT
+       remainder gives a sharpened Selberg formula. His Remark~2.5 notes
+       that the elementary-remainder literature did not sharpen Selberg's
+       lemma itself.
+ \item Hildebrand \cite{hildebrand} (first page read) proves $M(x)=o(x)$
+       without Selberg-type formulas, using a large-sieve inequality
+       together with Mertens' estimates and a sieve upper bound for primes
+       in short intervals.
+ \item Debruyne and Vindas \cite{dv} develop Laplace-Tauberian remainder
+       theorems for Beurling generalized primes.
+ \item The monograph of Diamond and Zhang \cite{diamond-zhang} treats
+       Beurling systems and $L^2$ prime number theorems (Kahane), using both
+       analytic and elementary methods. It is a compilation and was not
+       consulted.
+\end{itemize}
+
+\subsection{Contribution}
+
+\begin{enumerate}
+ \item The method (M1)--(M3). Selberg's formula is treated as a Riccati
+       equation along horizontal lines. Positivity at the doubled frequency
+       keeps the solution away from its unstable fixed point, uniformly and
+       in finite time. A M\"obius substitution makes the equation linear and
+       gives a uniform resolvent. With (M4)--(M5), this is a complete proof
+       of the energy bound under \eqref{eq:LD}, without analytic
+       continuation.
+ \item The $L^2$ estimate of Section~\ref{sec:wirsing-bridge}, which needs
+       no density hypothesis. It supplies the input that Wirsing's abstract
+       theorem requires for a general positive measure. Wirsing obtained
+       that input from arithmetic identities, which a general measure does
+       not have (Remark~\ref{rem:primitive-obstruction}).
+ \item The explicit passage from the energy bound to the sparse Mertens
+       certificate (Sections~\ref{sec:certificate}--\ref{sec:transfer}).
+\end{enumerate}
+We did not find (1) or (2) in the sources read. That search was limited, so
+priority is not settled.
+
+\section{Position of the result and remaining questions}\label{sec:position}
+
+The divisor identities, the prime and semiprime weights, Selberg's formula,
+and the quadratic sieve are classical. So are the arithmetic bounds, and
+the abstract theorem used in Corollary~\ref{cor:wirsing-bootstrap} is
+Wirsing's. This paper contributes the Riccati-flow method (M1)--(M3), the
+estimates it gives for the source, and the explicit chain to the sparse
+certificate.
+
+Status:
+\begin{itemize}
+ \item Proved here: the energy theorem, the density bound for primes, the
+       cofactor transfer, and \eqref{eq:arith-conclusions}.
+ \item Proved here, assuming Wirsing's Satz~2: the energy bound and
+       $f(t)=O(1/t)$ without \eqref{eq:LD}. The constant may depend on
+       the particular pair $(f,\nu)$.
+ \item Sharp: the energy bound cannot be improved in the abstract setting
+       (Remark~\ref{rem:energy-sharp}).
+ \item Open: the general constrained inverse \eqref{eq:constrained-open},
+       the spectral tail \eqref{eq:svd-tail-open}, and a uniformly
+       contracting finite recursion.
+ \item Limit: the current certificate cannot go below the floor in
+       Remark~\ref{rem:floor}, so the method gives no better rate as it
+       stands.
+\end{itemize}
+The next step is a signed certificate that can go below that floor,
+together with the estimate it would need. Larger numerical sweeps, or
+rewriting the same finite identity, will not supply that estimate.
+
+\appendix
+\section{A circular source estimate and its transfer limitation}
+\label{app:circle}
+
+The following result records a direct singular-mode mechanism.
+It is not needed for the exponential-window proof, but explains why the
+source must stay linked to the measure.
+
+\begin{proposition}\label{prop:circle}
+Let $\eta$ be any probability measure on the circle $\R/T\mathbb Z$,
+$T>0$. Let $q$ be the mean-zero periodic solution of
+\[
+ dq+q\dd t=T\eta-\dd t.
+\]
+Then
+\begin{equation}\label{eq:circle-bound}
+ \norm q_2\le\frac{15}{2}\norm{q+\eta*q}_2.
+\end{equation}
+\end{proposition}
+\begin{proof}
+Use normalized Fourier coefficients, and put
+\[
+ \omega_j=2\pi j/T,\qquad
+ z_j=\int e^{-i\omega_jt}\eta(\mathrm dt),\qquad
+ w_j=(1+\omega_j^2)^{-1}.
+\]
+For $j\ne0$, $q_j=z_j/(1+i\omega_j)$; $q_0=0$.
+These coefficients define an $L^2$ solution since $\sum_jw_j<\infty$.
+Set $e_j=w_j|z_j|^2$ and $d_j=w_j|z_j(1+z_j)|^2$.
+Call $j$ bad if $|1+z_j|<1/6$. Good indices satisfy $e_j\le36d_j$.
+At a bad index, $\Rea z_j<-5/6$, and positivity gives
+\[
+ \Rea z_{2j}\ge2(\Rea z_j)^2-1>7/18>1/3.
+\]
+Therefore $|z_{2j}|\ge1/3$, $|1+z_{2j}|\ge4/3$, and
+$w_{2j}\ge w_j/4$, so $d_{2j}\ge(4/81)e_j$.
+The map $j\mapsto2j$ is injective. For every integer $J\ge1$,
+\[
+ \sum_{0<|j|\le J}e_j
+ \le36\sum_{0<|j|\le J}d_j+
+       \frac{81}{4}\sum_{0<|j|\le2J}d_j
+ \le\frac{225}{4}\sum_{0<|j|\le2J}d_j.
+\]
+This explicitly pays for any overlap between directly controlled and
+charged modes. Let $J\to\infty$ and apply Parseval to obtain
+\eqref{eq:circle-bound}.
+\end{proof}
+
+If $\eta$ is a point mass at $T/2$, the operator $I+\eta*$ annihilates
+every odd Fourier mode. Thus \eqref{eq:circle-bound} is not an all-vector
+singular-value bound. For the generated source, the even companion
+modes control the bad odd modes in aggregate.
+If $v=q+\varepsilon$ with $\norm\varepsilon_2\le e_0$, then
+$\norm{I+\eta*}\le2$ and \eqref{eq:circle-bound} give
+\[
+ \norm v_2\le\frac{15}{2}\norm{(I+\eta*)v}_2+16e_0.
+\]
+
+For the arithmetic measure, take large $T$ away from its atoms and set
+\[
+ B_T=B(T),\quad \eta_T=\nu|_{[0,T]}/B_T,\quad
+ c_T=T/B_T,\quad b_T=\frac{c_T(1+f(T))}{1-e^{-T}}.
+\]
+On $0\le t<T$, define
+\begin{equation}\label{eq:circle-lift}
+ q_T(t)=c_Tf(t)+(c_T-1)+b_Te^{-t}.
+\end{equation}
+Its endpoint traces agree, and
+$dq_T+q_T\dd t=T\eta_T-\dd t$; integrating gives zero mean.
+Also $c_T=1+O(1/T)$ and $b_T=O(1)$, so
+\begin{equation}\label{eq:circle-lift-cost}
+ \int_0^Tt^2|q_T(t)-f(t)|^2\dd t\ll T.
+\end{equation}
+For the projection $\Pi_J$ onto $0<|j|\le J$, the bound $|z_j|\le1$ gives
+\[
+ \int_0^T|q_T-\Pi_Jq_T|^2\dd t\le\frac{T^3}{2\pi^2J},\qquad
+ \int_0^Tt^2|q_T-\Pi_Jq_T|^2\dd t\le\frac{T^5}{2\pi^2J}.
+\]
+These are analytic tail bounds, not finite-data extrapolations.
+
+The circular residual still has a wrap term. Let $K_T=\eta_T*$,
+$e_T(t)=c_T-1+b_Te^{-t}$, and
+\[
+ W_T(t)=\int_{(t,T]}f(T+t-u)\nu(\mathrm du).
+\]
+Splitting the circular convolution gives, almost everywhere,
+\begin{equation}\label{eq:wrap}
+ (I+K_T)q_T
+ =c_T\left[\left(1-\frac t{B_T}\right)f(t)
+                  +\frac{W_T(t)+R(t)}{B_T}\right]+e_T+K_Te_T.
+\end{equation}
+Replacing this residual by $R/B_T$ would omit both the early source and
+the wrap term. Proposition~\ref{prop:circle} alone therefore did not close
+the weighted arithmetic target. Sections~\ref{sec:scale}--\ref{sec:closure}
+give a complete alternative using exponential windows and retaining
+the initial-source term explicitly.
+
+\section*{AI assistance}
+
+The arguments in this paper were produced with the assistance of AI models
+and checked by separate AI proof audits. Agreement between AI audits is not
+independent human verification, and the paper has not been peer reviewed.
+
+\begin{thebibliography}{99}
+\bibitem{bombieri}
+E. Bombieri,
+\emph{Maggiorazione del resto nel ``Primzahlsatz'' col metodo di
+Erd\H{o}s--Selberg}, Ist. Lombardo Accad. Sci. Lett. Rend. A \textbf{96}
+(1962), 343--350; and \emph{Sulle formule di A. Selberg generalizzate per
+classi di funzioni aritmetiche e le applicazioni al problema del resto nel
+``Primzahlsatz''}, Riv. Mat. Univ. Parma (2) \textbf{3} (1962), 393--440.
+
+\bibitem{amitsur}
+S. A. Amitsur,
+\emph{Arithmetic linear transformations and abstract prime number theorems},
+Canad. J. Math. \textbf{13} (1961), 83--109.
+
+\bibitem{ingham}
+A. E. Ingham,
+review of A. Selberg, \emph{An elementary proof of the prime-number
+theorem}, and P. Erd\H{o}s, \emph{On a new method in elementary number
+theory which leads to an elementary proof of the prime number theorem};
+reprinted in \emph{Reviews in Number Theory as printed in Mathematical
+Reviews 1940--1972}, vol.~4, N20-3, 191--193, Amer. Math. Soc., 1974.
+
+\bibitem{wright}
+E. M. Wright,
+\emph{The elementary proof of the prime number theorem},
+Proc. Roy. Soc. Edinburgh Sect. A \textbf{63} (1952), 257--267.
+
+\bibitem{bombieri-ff}
+E. Bombieri,
+\emph{Sull'analogo della formula di Selberg nei corpi di funzioni},
+Atti Accad. Naz. Lincei Rend. Cl. Sci. Fis. Mat. Natur. (8) \textbf{35}
+(1963), 252--257.
+
+\bibitem{breusch}
+R. Breusch,
+\emph{An elementary proof of the prime number theorem with remainder term},
+Pacific J. Math. \textbf{10} (1960), 487--497.
+
+\bibitem{diamond-survey}
+H. G. Diamond,
+\emph{Elementary methods in the study of the distribution of prime numbers},
+Bull. Amer. Math. Soc. (N.S.) \textbf{7} (1982), 553--589.
+
+\bibitem{diamond-zhang}
+H. G. Diamond and W.-B. Zhang,
+\emph{Beurling Generalized Numbers},
+Math. Surveys Monogr. \textbf{213}, Amer. Math. Soc., 2016.
+
+\bibitem{hildebrand}
+A. Hildebrand,
+\emph{The prime number theorem via the large sieve},
+Mathematika \textbf{33} (1986), 23--30.
+
+\bibitem{kuhn}
+P. Kuhn,
+\emph{Eine Verbesserung des Restgliedes beim elementaren Beweis des
+Primzahlsatzes}, Math. Scand. \textbf{3} (1955), 75--89.
+
+\bibitem{wiener-geller}
+N. Wiener and L. Geller,
+\emph{Some prime-number consequences of the Ikehara theorem},
+Acta Sci. Math. (Szeged) \textbf{12B} (1950), 25--28.
+
+\bibitem{wirsing1}
+E. Wirsing,
+\emph{Elementare Beweise des Primzahlsatzes mit Restglied.~I},
+J. Reine Angew. Math. \textbf{211} (1962), 205--214.
+
+\bibitem{wirsing2}
+E. Wirsing,
+\emph{Elementare Beweise des Primzahlsatzes mit Restglied.~II},
+J. Reine Angew. Math. \textbf{214/215} (1964), 1--18.
+
+\bibitem{selberg}
+A. Selberg,
+\emph{An elementary proof of the prime-number theorem},
+Annals of Mathematics (2) \textbf{50} (1949), 305--313.
+
+\bibitem{tao}
+T. Tao,
+\emph{A Banach algebra proof of the prime number theorem},
+25 October 2014.
+\href{https://terrytao.wordpress.com/2014/10/25/a-banach-algebra-proof-of-the-prime-number-theorem/}
+{Online exposition}.
+
+\bibitem{saidak}
+F. Saidak,
+\emph{On the prime number lemma of Selberg},
+Mathematica Scandinavica \textbf{103} (2008), 5--10.
+\href{https://doi.org/10.7146/math.scand.a-15065}
+{doi:10.7146/math.scand.a-15065}.
+An author preprint is available at
+\url{https://uncg.edu/~f_saidak/MS2007.pdf}.
+
+\bibitem{dv}
+G. Debruyne and J. Vindas,
+\emph{On General Prime Number Theorems with Remainder},
+arXiv:1601.05324, version 2, 2017.
+\url{https://arxiv.org/abs/1601.05324}.
+\end{thebibliography}
+\end{document}
