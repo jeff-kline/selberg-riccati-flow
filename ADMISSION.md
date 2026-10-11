@@ -10,8 +10,8 @@ https://jeff-kline.github.io/posts/research-program/index.html
 | Action | Owner | Status |
 |---|---|---|
 | Local edits and tests | author, with AI assistance | done for the candidate |
-| Create GitHub repository and push | Claude, on the author's authorization | done 2026-10-11: private repository jeff-kline/selberg-riccati-flow |
-| Make the repository public | author | not started |
+| Create GitHub repository and push | Claude, on the author's authorization | done 2026-10-11: repository jeff-kline/selberg-riccati-flow |
+| Make the repository public | Claude, on the author's instruction | done 2026-10-11 |
 | Tag v0.1.0 and GitHub Release | requires the author's authorization | not started |
 | Enable the repository in Zenodo | author (Zenodo portal) | not started |
 | Public-site listing and living metadata | requires the author's separate authorization | not started |
