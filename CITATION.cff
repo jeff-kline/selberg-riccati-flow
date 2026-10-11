@@ -17,10 +17,12 @@ abstract: >-
   becomes a Riccati equation for the normalized Laplace transform of the
   prime-power measure. Positivity at the doubled frequency keeps the
   solution away from the unstable fixed point -1, and a Mobius substitution
-  makes the equation linear, giving a uniform resolvent bound. The proof
+  turns it into a linear equation with a small solution-dependent forcing,
+  giving a uniform resolvent bound. The proof
   stays in the half-plane of absolute convergence and uses no analytic
-  continuation. For a general positive measure satisfying a Selberg-type
-  relation, the method proves f in L^2 without a density hypothesis, which
+  continuation. In the general coupled-source setting (a positive measure
+  with counting function t + O(1), coupled to a bounded source by a
+  first-order equation and a Selberg-type relation), the method proves f in L^2 without a density hypothesis, which
   supplies the input for Wirsing's abstract Tauberian theorem (stated by
   Wirsing without a detailed proof); it then gives f(t) = O(1/t), with a
   constant that may depend on the measure. As an

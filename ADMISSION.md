@@ -10,10 +10,11 @@ https://jeff-kline.github.io/posts/research-program/index.html
 | Action | Owner | Status |
 |---|---|---|
 | Local edits and tests | author, with AI assistance | done for the candidate |
-| Create GitHub repository and push | requires the author's authorization (freeze bundle) | not started |
-| Tag v0.1.0 and GitHub Release | requires the author's authorization (freeze bundle) | not started |
+| Create GitHub repository and push | Claude, on the author's authorization | done 2026-10-11: private repository jeff-kline/selberg-riccati-flow |
+| Make the repository public | author | not started |
+| Tag v0.1.0 and GitHub Release | requires the author's authorization | not started |
 | Enable the repository in Zenodo | author (Zenodo portal) | not started |
-| Public-site listing and living metadata | requires the author's authorization (admission bundle) | not started |
+| Public-site listing and living metadata | requires the author's separate authorization | not started |
 
 Archive route: Zenodo GitHub integration. The DOI is minted only after the
 GitHub Release, so the candidate carries no DOI and CITATION.cff has no

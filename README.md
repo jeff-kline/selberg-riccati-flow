@@ -12,6 +12,10 @@ The paper is [paper/main.pdf](paper/main.pdf); its source is
 
 ## Introduction
 
+This paper gives a different proof of a classical bound for the error in
+the prime number theorem, using a differential equation derived from
+Selberg's formula.
+
 Write $\psi(x)=\sum_{n\le x}\Lambda(n)$ for the Chebyshev function and
 
 ```math
@@ -35,8 +39,9 @@ $\sum_n \Lambda(n)n^{-1}\delta_{\log n}$. The proof has four steps.
    Riccati equation for $\beta=\sigma b(\sigma+i\xi)$ as $\sigma$ decreases.
 2. Positivity at the doubled frequency $2\xi$ keeps $\beta$ away from the
    equation's unstable fixed point $-1$, uniformly in $\xi$.
-3. The substitution $W=\beta/(1+\beta)$ makes the equation linear. This
-   bounds the resolvent of the equation for the Laplace transform of $f$,
+3. The substitution $W=\beta/(1+\beta)$ removes the quadratic term, leaving
+   a linear equation whose forcing depends on the solution but stays small.
+   This bounds the resolvent of the equation for the Laplace transform of $f$,
    uniformly in $\xi$.
 4. A local density bound for primes, from a quadratic sieve, controls the
    starting line and the high frequencies.
@@ -44,9 +49,10 @@ $\sum_n \Lambda(n)n^{-1}\delta_{\log n}$. The proof has four steps.
 The proof stays in the half-plane where the Laplace transform converges
 absolutely. It uses no analytic continuation and no zero-free region.
 
-The argument applies to any positive measure $\nu$ with
-$\nu([0,t])=t+O(1)$ that satisfies a Selberg-type relation with bounded
-error. Without the density hypothesis, the same method proves
+The argument applies to the general coupled-source setting of the paper's
+Theorem 2.1: a positive measure $\nu$ with $\nu([0,t])=t+O(1)$, coupled to a
+bounded source $f$ by a first-order equation and a Selberg-type relation
+with bounded error. Without the density hypothesis, the same method proves
 $f\in L^2(0,\infty)$. This supplies the hypotheses of Wirsing's abstract
 Tauberian theorem that the Selberg relation does not give directly. That
 theorem, which Wirsing stated without a detailed proof, then gives
@@ -69,16 +75,20 @@ What we believe is new:
 
 - **Selberg's formula as a differential equation in $\sigma$**, solved
   quantitatively inside the half-plane of absolute convergence. The
-  elementary proofs (Selberg, Erdős, Kuhn, Wirsing, Bombieri) avoid the
-  Laplace transform; the analytic proofs (Wiener–Geller, the 3-4-1
-  argument, Tao) use it on the boundary line and give no rate. This
+  elementary remainder proofs we examined (Kuhn, Wirsing, Bombieri) work
+  with real-variable convolution inequalities; Bombieri uses the Laplace
+  transform only to prove a convolution identity on the real axis. The
+  analytic proofs we examined (Wiener–Geller, the 3-4-1 argument, Tao) use
+  the transform on the boundary line and give no rate. This
   argument uses the transform, never reaches the boundary, and gives a rate.
 - **Positivity at $2\xi$ as a barrier for the flow.** The inequality is the
   one behind the 3-4-1 argument; the new part is using it to hold the flow
   away from $-1$ for a fixed time, uniformly in $\xi$, in place of
   analyticity.
-- **The linearized resolvent**, and its consequence $f\in L^2$ for a
-  general positive measure without a density hypothesis. Through Wirsing's
+- **The linearized resolvent.** The substitution removes the quadratic
+  term; the remaining forcing depends on the solution but is small. The
+  resolvent gives $f\in L^2$ in the general coupled-source setting without
+  a density hypothesis. Through Wirsing's
   abstract theorem this makes his pointwise bound available beyond the
   arithmetic case. Wirsing obtained the corresponding input from arithmetic
   identities, which a general measure does not have.

@@ -45,14 +45,17 @@ transform of the prime-power measure. On each horizontal line
 $s=\sigma+i\xi$, Selberg's formula becomes a Riccati equation for
 $\sigma b(\sigma+i\xi)$ as $\sigma$ decreases. Positivity at the doubled
 frequency $2\xi$ keeps the solution away from the unstable fixed point $-1$.
-A M\"obius substitution then makes the equation linear, which gives a
-resolvent bound uniform in $\xi$. Combined with a local density bound for
+A M\"obius substitution then turns it into a linear equation whose forcing
+term depends on the solution but stays small, which gives a resolvent bound
+uniform in $\xi$. Combined with a local density bound for
 primes from a quadratic sieve, this proves
 $\int_0^T t^2f(t)^2\,\mathrm dt=O(T)$. The proof stays in the half-plane of
 absolute convergence and uses no analytic continuation.
 
-The argument applies to any positive measure $\nu$ with $\nu([0,t])=t+O(1)$
-that satisfies a Selberg-type relation with bounded error. Without the
+The argument applies to the general coupled-source setting of
+Theorem~\ref{thm:energy}: a positive measure $\nu$ with $\nu([0,t])=t+O(1)$,
+coupled to a bounded source $f$ by a first-order equation and a Selberg-type
+relation with bounded error. Without the
 density hypothesis, the same method proves $f\in L^2(0,\infty)$. This
 supplies the hypotheses of Wirsing's abstract Tauberian theorem that the
 Selberg relation does not give directly. That theorem, which Wirsing stated
@@ -113,8 +116,9 @@ If $\beta$ came close to it, positivity of $\nu$ would force
 $\Rea\beta(\sigma,2\xi)$ to stay near $1$. The same Riccati equation at
 frequency $2\xi$ drives it down too fast for that to last. So
 $\beta$ stays away from $-1$, uniformly in $\xi$
-(Lemma~\ref{lem:exclusion}). The substitution $W=\beta/(1+\beta)$ turns the
-Riccati equation into a linear one. Solving it bounds
+(Lemma~\ref{lem:exclusion}). The substitution $W=\beta/(1+\beta)$ cancels the
+quadratic term exactly, leaving a linear equation for $W$ whose forcing
+depends on $\beta$ but is small. Solving it bounds
 $\int|b(u+i\xi)|\dd u$ along each line, which gives a resolvent for $H$,
 the Laplace transform of $f$ (Section~\ref{sec:resolvent}). The remaining
 work is to control $H$ on a starting line and at high frequencies
@@ -148,21 +152,22 @@ ingredients.
  \item \emph{Selberg's formula as a differential equation in $\sigma$.}
        The formula is solved as a quantitative Riccati equation for the
        Laplace transform, inside the half-plane of absolute convergence.
-       There are two classical routes from Selberg's formula to the prime
-       number theorem. The elementary proofs (Selberg, Erd\H{o}s, Kuhn,
-       Wirsing, Bombieri) work with real-variable convolution inequalities
-       and avoid the Laplace transform. The analytic proofs (Wiener--Geller,
-       the 3-4-1 argument, Tao) use the transform on the boundary line and
-       give no rate. Our argument uses the transform but never reaches the
+       The elementary remainder proofs we examined (Kuhn, Wirsing, Bombieri)
+       work with real-variable convolution inequalities; Bombieri uses the
+       Laplace transform only to prove a convolution identity on the real
+       axis. The analytic proofs we examined (Wiener--Geller, the 3-4-1
+       argument, Tao) use the transform on the boundary line and give no
+       rate (Section~\ref{sec:lit-mechanisms}). Our argument uses the transform but never reaches the
        boundary, and it gives a rate.
  \item \emph{Positivity at $2\xi$ as a barrier for the flow.} The
        inequality is the one behind the 3-4-1 argument. What is new is how
        it is used. It keeps the flow a fixed distance from $-1$ for a fixed
        time, uniformly in $\xi$, and this replaces analyticity.
  \item \emph{The linearized resolvent and what it gives.} The substitution
-       $W=\beta/(1+\beta)$ turns the flow into a linear equation with a
-       resolvent bounded uniformly in $\xi$. For a general positive measure
-       it gives $f\in L^2$ with no density hypothesis. Through Wirsing's
+       $W=\beta/(1+\beta)$ removes the quadratic term of the flow; the
+       remaining forcing depends on the solution but is small, and the
+       resulting resolvent is bounded uniformly in $\xi$. In the general
+       coupled-source setting it gives $f\in L^2$ with no density hypothesis. Through Wirsing's
        abstract theorem, this makes his pointwise bound $f(t)=O(1/t)$
        available beyond the arithmetic case (Section~\ref{sec:wirsing-bridge}).
 \end{enumerate}
@@ -1699,8 +1704,9 @@ Section~\ref{sec:finite} do not occur in those works.
  \item The method (M1)--(M3). Selberg's formula is treated as a Riccati
        equation along horizontal lines. Positivity at the doubled frequency
        keeps the solution away from its unstable fixed point, uniformly and
-       in finite time. A M\"obius substitution makes the equation linear and
-       gives a uniform resolvent. With (M4)--(M5), this is a complete proof
+       in finite time. A M\"obius substitution removes the quadratic term,
+       leaving a linear equation with a small solution-dependent forcing,
+       and gives a uniform resolvent. With (M4)--(M5), this is a complete proof
        of the energy bound under \eqref{eq:LD}, without analytic
        continuation.
  \item The $L^2$ estimate of Section~\ref{sec:wirsing-bridge}, which needs

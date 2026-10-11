@@ -30,7 +30,7 @@ The commands above were run on 2026-10-11 in a fresh `git archive` extraction
 of the candidate, with the tracked PDF deleted first and no TeX auxiliary
 files. `make paper` and `make check` passed, and the rebuilt PDF was
 byte-identical to the tracked `paper/main.pdf`
-(SHA-256 `328a745ee068896bee32a77f84a69893d3cc43f9d3db61aa79e6d93f15cf998f`).
+(SHA-256 `a5cd8308fd28dc9260cde206b95f0cde7fc953ae40f4a36c7bfd86e415ae2394`).
 
 ## Exclusions
 

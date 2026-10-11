@@ -85,3 +85,16 @@ papers, Kahane full text, Richter's proof, Ingham's review.
 | C7 | README should state B(t) = t + O(1) | Fixed (README and abstract) |
 | C8 | Optional: Geller/Gellert spelling; Amitsur 1969 correction; Richter | Not changed |
 | — | No source found for the method items (a)–(d); absence of hits is not evidence of non-existence | Novelty wording unchanged: bounded, priority not settled |
+
+## 2026-10-11 — author-supplied review of 57069b7
+
+An outside review of the pushed candidate, supplied by the author, raised
+wording points only.
+
+| ID | Finding | Disposition |
+|---|---|---|
+| R1 | "Makes the equation linear" is too strong: the forcing depends on the solution | Fixed in abstract, Section 1, Section 16.5, README, CFF: the substitution removes the quadratic term, leaving a linear equation with small solution-dependent forcing |
+| R2 | "Any positive measure" hides the coupled-source hypotheses | Fixed: refers to the coupled-source setting of Theorem 2.1 (abstract, Section 1, README, CFF) |
+| R3 | Comparison overcompressed: Bombieri does use a Laplace transform (Section 16) | Fixed: restricted to the proofs examined; Bombieri's real-axis use stated |
+| R4 | README opens with notation | Fixed: plain first sentence added |
+| R5 | ADMISSION.md says repository creation not started | Fixed |
